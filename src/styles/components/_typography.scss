@@ -1,0 +1,63 @@
+h1 {
+  @include fw(800);
+  font-size: 72px;
+  @include lh();
+  font-family: $ff_Manrope;
+  @media (max-width: $wide-screen) {
+    font-size: 68px;
+  }
+  @media (max-width: $desktop-wide) {
+    font-size: 56px;
+  }
+}
+
+h2 {
+  @include fw(800);
+  font-size: 36px;
+  @include lh();
+  font-family: $ff_Manrope;
+  cursor: default;
+  @media (max-width: $wide-screen) {
+    font-size: 32px;
+  }
+  @media (max-width: $desktop) {
+    font-size: 30px;
+  }
+  @media (max-width: $ipad) {
+    font-size: 28px;
+  }
+  @media (max-width: $tablet) {
+    font-size: 26px;
+  }
+  @media (max-width: $phone-wide) {
+    font-size: 22px;
+  }
+  @media (max-width: $phone) {
+    font-size: 18px;
+  }
+  
+  &.page-title {
+    span {
+      color: $color-green;
+    }
+  }
+}
+
+p {
+  @include fw();
+  font-size: 18px;
+  @include lh();
+  margin-top: 0;
+  @media (max-width: $wide-screen) {
+    font-size: 17px;
+  }
+  @media (max-width: $desktop-wide) {
+    font-size: 16px;
+  }
+  @media (max-width: $desktop) {
+    font-size: 15px;
+  }
+  @media (max-width: $tablet) {
+    font-size: 14px;
+  }
+}

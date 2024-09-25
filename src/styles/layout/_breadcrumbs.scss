@@ -1,0 +1,71 @@
+.breadcrumbs {
+  width: 100%;
+  position: absolute;
+  top: 200px;
+  left: 0;
+  right: 0;
+  display: inline-block;
+  text-align: center;
+  z-index: 1;
+  @extend %flex;
+  @media (max-width: $wide-screen) {
+    top: 200px;
+  }
+  @media (max-width: $desktop-wide) {
+    top: 200px;
+  }
+  @media (max-width: $desktop) {
+    top: 190px;
+  }
+  @media (max-width: $ipad) {
+    top: 135px;
+  }
+  @media (max-width: $phone-wide) {
+    top: 120px;
+  }
+  
+  .container {
+    @extend %flex;
+    justify-content: center;
+  }
+  
+  &_list {
+    @extend %inline-flex;
+    align-items: center;
+    justify-content: center;
+    @media (max-width: $ipad) {
+      justify-content: flex-start;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 5px;
+    }
+  }
+  
+  &_item {
+    a, span {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+      text-transform: uppercase;
+      color: $color-white;
+      @media (max-width: $ipad) {
+        font-size: 13px;
+      }
+      @media (max-width: $phone) {
+        font-size: 12px;
+      }
+    }
+  
+    span {
+      color: $color-green;
+    }
+  }
+  
+  &_separator {
+    margin: 0 10px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 19px;
+    color: $color-white;
+  }
+}

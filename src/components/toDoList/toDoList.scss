@@ -1,0 +1,75 @@
+@import "../../styles/abstacts/variables";
+
+.todolist {
+    padding: 80px 0;
+    color: $bg-dark-blue;
+    &__title {
+        margin-bottom: 40px;
+        font-weight: 800;
+        text-align: center;
+    }
+    &__add {
+        display: flex;
+        gap: 8px;
+        input {
+            border: 1px solid $bg-dark;
+            flex-grow: 1;
+        }
+        &-btn {
+
+        }
+    }
+    &__list {
+        margin-top: 40px;
+        &-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding: 6px 24px;
+            border-radius: 10px;
+            &:nth-child(odd) {
+                background: rgba($bg-dark, .055);
+            }
+            &:nth-child(even) {
+                background: rgba($bg-dark, .1);
+            }
+            &-text {
+                flex-grow: 1;
+                outline: none;
+                background-color: transparent !important;
+                border: 0 !important;
+                &[readonly] {
+                    pointer-events: none;
+                    color: rgba($bg-dark-blue, .75); 
+                }
+            }
+            button {
+                width: 24px;
+                min-width: 24px;
+                height: 24px;
+                padding: 0;
+                background-color: transparent;
+                font-size: 0;
+                border: 0;
+                background-size: 24px;
+                background-position: center;
+                background-repeat: no-repeat;
+                transition: $standart;
+                opacity: .75;
+                &:hover,
+                &.active {
+                    opacity: 1;
+                }
+            }    
+            
+            &-edit {
+                background-image: url('/image/edit-tool-pencil.svg');
+            }
+            &-delete {
+                background-image: url('/image/delete.svg');
+                margin-left: 18px;
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+{
+  "Index": {
+    "title": "Тест укр!",
+    "select": "Виберіть мову",
+    "locale": "{locale, select, ua {Ukraine} en {English} other {Unknown}}"
+  },
+  "NotFoundPage": {
+    "title": "Сторінку не знайдено"
+  },
+  "Portfolio": {
+    "title": "Сторінка Портфоліо"
+  },
+  "Services": {
+    "title": "Сторінка Сервісів"
+  },
+  "Contact": {
+    "title": "Сторінка контактів"
+  },
+  "Menu": {
+    "About": "Про нас",
+    "Contacts": "Контакти",
+    "Services": "Сервіси",
+    "Portfolio": "Портфоліо",
+    "Privacy": "Політика конфіденційності",
+    "Terms": "Правила та умови",
+    "Game": "Гра",
+    "Test": "Тест"
+  },
+  "About": {
+    "title": "Про нас",
+    "team": "команда"
+  },
+  "Game": {
+    "numbers": "Зібрати послідовність",
+    "puzzle": "Зібрати пазл",
+    "select": "Оберіть рівень складності гри"
+  }
+}

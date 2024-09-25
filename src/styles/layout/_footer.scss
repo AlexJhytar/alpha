@@ -1,0 +1,291 @@
+.footer {
+  width: 100%;
+  margin: 120px 0 0;
+  padding-bottom: 67px;
+  @media (max-width: $wide-screen) {
+    margin-top: 100px;
+  }
+  @media (max-width: $desktop) {
+    margin-top: 70px;
+    padding-bottom: 50px;
+  }
+  @media (max-width: $phone-wide) {
+    margin-top: 60px;
+  }
+  
+  &__wrap {
+    @extend %flex;
+    justify-content: space-between;
+    position: relative;
+    @media (max-width: $desktop) {
+      flex-wrap: wrap;
+    }
+  }
+  
+  &__block {
+    padding-right: 20px;
+    @extend %inline-flex;
+    flex-flow: column;
+    
+    &:nth-last-child(2) {
+      padding-right: 0;
+    }
+    
+    @media (max-width: $desktop) {
+      &:nth-of-type(1) {
+        width: 100%;
+        margin-bottom: 40px;
+      }
+    }
+    @media (max-width: $phone-wide) {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 60px;
+      align-items: center;
+      &:nth-of-type(1) {
+        margin-bottom: 60px;
+      }
+    }
+    
+    &-logo {
+      width: 100%;
+      
+      img {
+        width: 180px;
+        height: 42px;
+        @media (max-width: $wide-screen) {
+          width: 160px;
+          height: 38px;
+        }
+        @media (max-width: $desktop) {
+          width: 140px;
+          height: 30px;
+        }
+      }
+    }
+    
+    &-caption {
+      @include fw(500);
+      font-size: 20px;
+      line-height: 24px;
+      text-transform: uppercase;
+      color: $color-green;
+      font-family: $ff_Manrope;
+      margin-bottom: 40px;
+      @media (max-width: $wide-screen) {
+        font-size: 18px;
+      }
+      @media (max-width: $ipad) {
+        font-size: 16px;
+      }
+      @media (max-width: $tablet) {
+        margin-bottom: 30px;
+        font-size: 14px;
+      }
+      @media (max-width: $phone-wide) {
+        font-size: 18px;
+        line-height: 22px;
+      }
+    }
+    
+    &-menu {
+      li {
+        margin-bottom: 20px;
+        
+        &:nth-last-child(1) {
+          margin-bottom: 0;
+        }
+        
+        a {
+          @include fw();
+          font-size: 18px;
+          line-height: 21px;
+          @media (max-width: $wide-screen) {
+            font-size: 16px;
+          }
+          @media (max-width: $ipad) {
+            font-size: 15px;
+          }
+          @media (max-width: $tablet) {
+            font-size: 14px;
+          }
+          
+          &:hover {
+            color: $color-green;
+          }
+        }
+      }
+    }
+    
+    &-phone {
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: -1px;
+        width: 24px;
+        height: 24px;
+        background-size: cover;
+        @media (max-width: $tablet) {
+          width: 20px;
+          height: 20px;
+        }
+      }
+      
+      a {
+        padding-left: 44px;
+        @include fw();
+        font-size: 18px;
+        line-height: 21px;
+        @media (max-width: $wide-screen) {
+          font-size: 16px;
+        }
+        @media (max-width: $ipad) {
+          font-size: 15px;
+        }
+        @media (max-width: $tablet) {
+          font-size: 14px;
+          padding-left: 36px;
+        }
+        
+        &:hover {
+          color: $color-green;
+        }
+      }
+    }
+    
+    &-mail {
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+      @media (max-width: $phone-wide) {
+        margin-bottom: 30px;
+      }
+      
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 24px;
+        height: 20px;
+        background-size: cover;
+        @media (max-width: $tablet) {
+          width: 20px;
+          height: 17px;
+        }
+      }
+      
+      a {
+        padding-left: 44px;
+        @include fw();
+        font-size: 18px;
+        line-height: 21px;
+        @media (max-width: $wide-screen) {
+          font-size: 16px;
+        }
+        @media (max-width: $ipad) {
+          font-size: 15px;
+        }
+        @media (max-width: $tablet) {
+          font-size: 14px;
+          padding-left: 36px;
+        }
+        
+        &:hover {
+          color: $color-green;
+        }
+      }
+    }
+    
+    &-social {
+      a {
+        &:hover {
+          &::before {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+  
+  &__bottom {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    @media (max-width: $desktop) {
+      position: relative;
+      width: 100%;
+      margin-top: 60px;
+      display: flex;
+      justify-content: space-between;
+    }
+    @media (max-width: $phone-wide) {
+      margin-top: 0;
+      flex-flow: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    &-corp {
+      margin-bottom: 10px;
+      @include fw();
+      font-size: 13px;
+      line-height: 15px;
+      color: $color-gray;
+      @media (max-width: $phone) {
+        font-size: 12px;
+      }
+    }
+    
+    &-links {
+      @extend %flex;
+      align-items: center;
+      @media (max-width: $phone) {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      a {
+        @include fw();
+        font-size: 13px;
+        line-height: 15px;
+        color: $color-gray;
+        position: relative;
+        margin-right: 10px;
+        padding-right: 12px;
+        @media (max-width: $phone) {
+          font-size: 12px;
+        }
+        
+        &::before {
+          content: '';
+          position: absolute;
+          right: 0;
+          top: 1px;
+          width: 1px;
+          height: 100%;
+          background-color: $bg-gray1;
+        }
+        
+        &:nth-last-child(1) {
+          margin-right: 0;
+          padding-right: 0;
+          
+          &::before {
+            content: none;
+          }
+        }
+        
+        &:hover {
+          color: $color-green;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+body {
+  font-size: 14px;
+  line-height: 100%;
+  color: $color-dark;
+  background-color: $bg-white;
+  font-family: $ff_Roboto;
+  @include fw();
+}
+
+*::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+  background-color: hsla(0,0%,100%,.05);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $bg-green;
+  outline: none;
+}
+
+@media (min-width: 1024px) {
+  *::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    background-color: hsla(0,0%,100%,.05);
+  }
+}
+
+a {
+  color: $color-dark;
+  transition: $standart;
+}
+
+.page-wrap {
+  width: 100%;
+  padding-top: 100px;
+  height: auto;
+  overflow: hidden;
+  min-height: 100vh;
+  transition: opacity 1s;
+  @media (max-width: $desktop) {
+    padding-top: 90px;
+  }
+  @media (max-width: $ipad) {
+    padding-top: 80px;
+  }
+}
+
+.slidePageIn {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  transform-origin: top;
+  transform: translateY(-100%);
+  background: $bg-dark-blue;
+  z-index: 101;
+}

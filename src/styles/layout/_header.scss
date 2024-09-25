@@ -1,0 +1,380 @@
+.header {
+  position: fixed;
+  width: 100%;
+  height: 100px;
+  @extend %flex;
+  align-items: center;
+  left: 0;
+  top: 0;
+  background-color: $bg-dark-blue;
+  z-index: 1001;
+  box-shadow: 0 4px 10px 0 rgba(160, 160, 160, 0.07);
+  overflow: hidden;
+  @media (max-width: $desktop) {
+    height: 90px;
+  }
+  @media (max-width: $ipad) {
+    height: 80px;
+    transform: none;
+  }
+  @media (max-width: $phone-wide) {
+    animation: none;
+    top: 0;
+  }
+  
+  & > .container {
+    height: 100%;
+    position: relative;
+    @media (max-width: $ipad) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+  
+  &__logo {
+    position: absolute;
+    left: 0;
+    top: 30px;
+    z-index: 1;
+    @media (max-width: $wide-screen) {
+      top: 32px;
+    }
+    @media (max-width: $desktop) {
+      margin-right: 46px;
+      top: 31px;
+    }
+    @media (max-width: $ipad) {
+      position: relative;
+      top: 0;
+      margin-right: 0;
+    }
+    
+    img {
+      width: 180px;
+      height: 42px;
+      @media (max-width: $wide-screen) {
+        width: 160px;
+        height: 38px;
+      }
+      @media (max-width: $desktop) {
+        width: 140px;
+        height: 30px;
+      }
+    }
+  }
+  
+  &__wrap {
+    @extend %flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    padding-left: 240px;
+    background-color: $bg-dark-blue;
+    animation: animHeader 1s forwards;
+    @media (max-width: $wide-screen) {
+      padding-left: 200px;
+    }
+    @media (max-width: $desktop) {
+      padding-left: 180px;
+    }
+    @media (max-width: $ipad) {
+      position: fixed;
+      flex-flow: column;
+      align-items: center;
+      justify-content: flex-start;
+      top: 0;
+      overflow-y: auto;
+      left: 0;
+      width: 100%;
+      padding-left: 0;
+      padding-top: 40px;
+      padding-bottom: 120px;
+      height: calc(100vh - 80px);
+      transition: transform 1s ease .5s, background-color .5s;
+      transform: translateY(-150%);
+      will-change: transform;
+      animation: none;
+      
+      .mob-menu-open & {
+        transform: translateY(80px);
+        transition: transform 1s ease;
+      }
+    }
+    
+    @media (max-width: $ipad) and (min-height: 1000px) {
+      padding-top: 0;
+      padding-bottom: 0;
+      justify-content: center;
+    }
+  }
+  
+  &__block {
+    @extend %inline-flex;
+    align-items: center;
+    @media (max-width: $ipad) {
+      flex-flow: column;
+    }
+    
+    &-lang {
+      margin-right: 32px;
+      @media (max-width: $desktop) {
+        margin-right: 26px;
+      }
+      @media (max-width: $ipad) {
+        margin-right: 0;
+        margin-bottom: 40px;
+        opacity: 0;
+        transition: opacity .5s;
+        
+        .mob-menu-open & {
+          opacity: 1;
+          transition: opacity 1.5s;
+        }
+      }
+      
+      span {
+        padding-right: 11px;
+        margin-right: 11px;
+        @include fw();
+        font-size: 16px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        text-transform: uppercase;
+        color: $color-white;
+        @media (max-width: $desktop) {
+          font-size: 15px;
+        }
+        @media (max-width: $ipad) {
+          font-size: 20px;
+          padding-right: 16px;
+          margin-right: 16px;
+        }
+        
+        &::before {
+          content: '';
+          position: absolute;
+          right: 0;
+          top: 1px;
+          width: 1px;
+          height: 16px;
+          background: $bg-white;
+          @media (max-width: $desktop) {
+            height: 15px;
+          }
+          @media (max-width: $ipad) {
+            height: 20px;
+          }
+        }
+        
+        &.active {
+          color: $color-green;
+          pointer-events: none;
+        }
+        
+        &:hover {
+          color: $color-green;
+        }
+        
+        &:nth-last-child(1) {
+          padding-right: 0;
+          margin-right: 0;
+          
+          &::before {
+            content: none;
+          }
+        }
+      }
+    }
+    
+    &-menu {
+      @media (max-width: $ipad) {
+        margin-bottom: 80px;
+      }
+      
+      ul {
+        li {
+          display: inline-block;
+          margin-right: 40px;
+          @media (max-width: $desktop) {
+            margin-right: 30px;
+          }
+          @media (max-width: $ipad) {
+            display: block;
+            margin-right: 0;
+            opacity: 0;
+            $items: 20;
+            will-change: transform;
+            transform: translate3d(0, -100px, 0);
+            @for $i from 1 through $items {
+              &:nth-last-child(n + #{$i}) {
+                transition: opacity #{($i + 5) * 0.1s, transform .5s 1s};
+              }
+            }
+            
+            .mob-menu-open & {
+              @for $i from 1 through $items {
+                &:nth-last-child(n + #{$i}) {
+                  transform: translate3d(0, 0, 0);
+                  opacity: 1;
+                  transition: all #{($i + 5) * 0.1s} .5s;
+                }
+              }
+            }
+          }
+          
+          &:nth-last-child(1) {
+            margin-right: 0;
+          }
+          
+          a {
+            @include fw();
+            font-size: 16px;
+            line-height: 60px;
+            display: inline-block;
+            color: $color-white;
+            transition: $standart;
+            position: relative;
+            @media (max-width: $desktop) {
+              font-size: 15px;
+            }
+            @media (max-width: $ipad) {
+              line-height: 50px;
+              font-size: 20px;
+            }
+            
+            &.active {
+              color: $color-green;
+            }
+  
+            &:hover {
+              color: $color-green;
+            }
+          }
+        }
+      }
+    }
+    
+    .button {
+      @media (max-width: $ipad) {
+        opacity: 0;
+        transition: opacity .5s;
+        width: 240px;
+        will-change: opacity;
+        
+        .mob-menu-open & {
+          opacity: 1;
+          transition: opacity 2s;
+        }
+      }
+    }
+  }
+  
+  .mob-menu {
+    width: 30px;
+    height: 25px;
+    position: relative;
+    z-index: 100;
+    cursor: pointer;
+    display: none;
+    @media (max-width: $ipad) {
+      display: block;
+    }
+    
+    span {
+      position: absolute;
+      top: 11px;
+      right: 0;
+      height: 3px;
+      background-color: $bg-green;
+      width: 20px;
+      transition: all .5s ease .5s;
+      border-radius: 10px;
+      will-change: transform;
+      
+      .mob-menu-open & {
+        opacity: 0;
+        width: 0;
+        transform: translate3d(30px, 0, 0);
+        transition: all .5s ease;
+      }
+    }
+    
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      margin: 0 auto;
+      height: 3px;
+      background-color: $bg-white;
+      transform: rotate(0);
+      transition: transform .3s ease-out;
+      border-radius: 10px;
+      will-change: transform;
+    }
+    
+    &:before {
+      top: 0;
+      right: 0;
+      
+      .mob-menu-open & {
+        transform: rotate(45deg) translate3d(9px, 8px, 0);
+      }
+    }
+    
+    &:after {
+      bottom: 0;
+      left: 0;
+      
+      .mob-menu-open & {
+        transform: rotate(-45deg) translate3d(7px, -6px, 0);
+      }
+    }
+  }
+}
+
+.mob-menu-open {
+  overflow: hidden;
+}
+
+@keyframes dots {
+  0% {
+    left: 2px;
+  }
+  50% {
+    left: 85%;
+  }
+  100% {
+    left: 2px;
+  }
+}
+
+@keyframes animHeader {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes animHeaderFirst {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes animHeaderFirstMob {
+  from {
+    top: -100%;
+  }
+  to {
+    top: 0;
+  }
+}

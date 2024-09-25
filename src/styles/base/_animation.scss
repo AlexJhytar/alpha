@@ -1,0 +1,213 @@
+@keyframes scale {
+  0% {
+    opacity: .3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: .4;
+    transform: scale(.85);
+  }
+  100% {
+    opacity: .3;
+    transform: scale(1);
+  }
+}
+
+@keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: scaleX(1) scaleY(1) scaleZ(1) rotateX(90deg);
+  }
+  to {
+    transform: scaleX(1) scaleY(1) scaleZ(1) rotateX(0);
+  }
+}
+
+@keyframes rotate360 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(71,165,86, .5);
+    box-shadow: 0 0 0 0 rgba(71,165,86, 0.4);
+  }
+  70% {
+    -moz-box-shadow: 0 0 0 10px rgba(71,165,86, 0);
+    box-shadow: 0 0 0 10px rgba(71,165,86, 0);
+  }
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(71,165,86, 0);
+    box-shadow: 0 0 0 0 rgba(71,165,86, 0);
+  }
+}
+
+@keyframes slideImage {
+  from {
+    transform: translateX(-150px);
+  }
+  50% {
+    transform: translateX(150px);
+  }
+  to {
+    transform: translateX(-150px);
+  }
+}
+
+@keyframes slideImageReverse {
+  from {
+    transform: translateX(150px);
+  }
+  50% {
+    transform: translateX(-150px);
+  }
+  to {
+    transform: translateX(150px);
+  }
+}
+
+@keyframes slide {
+  from {
+    transform: perspective(1000px) scale(1);
+  }
+  40% {
+    transform: perspective(1000px) scale(1.02);
+  }
+  60% {
+    transform: perspective(1000px) scale(1.02);
+  }
+  to {
+    transform: perspective(1000px) scale(1);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes rotateBanner {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ellipse {
+  from {
+    transform: translateX(-10%) translateY(0);
+  }
+  12.5% {
+    transform: translateX(-10%) translateY(-10%);
+  }
+  25% {
+    transform: translateX(0) translateY(-10%);
+  }
+  37.5% {
+    transform: translateX(10%) translateY(-10%);
+  }
+  50% {
+    transform: translateX(10%) translateY(0);
+  }
+  62.5% {
+    transform: translateX(10%) translateY(10%);
+  }
+  75% {
+    transform: translateX(0) translateY(10%);
+  }
+  87.5% {
+    transform: translateX(-10%) translateY(10%);
+  }
+  to {
+    transform: translateX(-10%) translateY(0);
+  }
+}
+
+@keyframes ellipseOne {
+  from {
+    transform: translateX(-100%) translateY(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(50%) translateY(-50%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%) translateY(-150%);
+    opacity: 0;
+  }
+}
+
+@keyframes ellipseSecond {
+  from {
+    transform: translateX(100%) translateY(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(-50%) translateY(50%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%) translateY(150%);
+    opacity: 0;
+  }
+}
+
+@keyframes subTop {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: .8;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(200px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slideLeftMob {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}

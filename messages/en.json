@@ -1,0 +1,38 @@
+{
+  "Index": {
+    "title": "Test en!",
+    "select": "Select a language",
+    "locale": "{locale, select, ua {Ukraine} en {English} other {Unknown}}"
+  },
+  "NotFoundPage": {
+    "title": "Page not found"
+  },
+  "Portfolio": {
+    "title": "Portfolio page"
+  },
+  "Services": {
+    "title": "Services page"
+  },
+  "Contact": {
+    "title": "Contact page"
+  },
+  "Menu": {
+    "About": "About us",
+    "Contacts": "Contacts",
+    "Services": "Services",
+    "Portfolio": "Portfolio",
+    "Privacy": "Privacy policy",
+    "Terms": "Terms & Conditions",
+    "Game": "Game",
+    "Test": "Test"
+  },
+  "About": {
+    "title": "About us",
+    "team": "team"
+  },
+  "Game": {
+    "numbers": "Collect the sequence",
+    "puzzle": "Collect a puzzle",
+    "select": "Select the game difficulty"
+  }
+}

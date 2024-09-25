@@ -1,0 +1,42 @@
+// ---- ~ colors text
+$color-dark: #121212; // main text
+$color-black: #000000;
+$color-green: #0BC594;
+$color-white: #FFFFFF;
+$color-gray: #B1B1B1;
+
+// ---- ~ colors background, border
+$bg-white: #FFFFFF;
+$bg-dark: #121212;
+$bg-green: #0bc594;
+$bg-green-hover: #0BB186;
+$bg-gray: #F2F2F2;
+$bg-gray1: #B1B1B1;
+$bg-gray2: #f4f8f9;
+$bg-gray3: #EEEEEE;
+$bg-dark-blue: #14213d;
+$bg-red: #BC0000;
+
+// ---- ~ DESKTOP size
+$wide-screen: 1600px;
+$desktop-wide: 1359px;
+$desktop: 1199px;
+
+// ---- ~ tablet size
+$ipad: 1023px;
+$tablet: 767px;
+
+// ---- ~ phone size
+$phone-wide: 639px;
+$phone: 400px;
+
+// ---- ~ Container
+$container: 1420px;
+
+// ---- ~ font family
+$ff_Roboto: var(--font-roboto);
+$ff_Manrope: var(--font-manrope);
+
+// ---- ~ transition
+$standart: all .5s ease 0s;
+

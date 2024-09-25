@@ -1,0 +1,36 @@
+{
+  "name": "alpha",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.15.10",
+    "axios": "^1.6.7",
+    "framer-motion": "^11.0.5",
+    "globby": "^14.0.1",
+    "gray-matter": "^4.0.3",
+    "gsap": "^3.12.5",
+    "html-react-parser": "^5.1.5",
+    "next": "^14.2.13",
+    "next-intl": "^3.7.0",
+    "prettier": "^3.2.5",
+    "react": "^18.3.1",
+    "react-countup": "^6.5.0",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
+    "react-slick": "^0.30.2",
+    "react-timer-hook": "^3.0.7",
+    "react-transition-group": "^4.4.5",
+    "swiper": "^11.0.7"
+  },
+  "devDependencies": {
+    "sass": "^1.70.0"
+  }
+}

@@ -1,0 +1,27 @@
+.container {
+  width: $container;
+  margin: 0 auto;
+  padding: 0;
+  @media (max-width: $wide-screen) {
+    width: 1120px;
+  }
+  @media (max-width: $desktop-wide) {
+    width: 1120px;
+  }
+  @media (max-width: $desktop) {
+    width: 960px;
+  }
+  @media (max-width: $ipad) {
+    width: 100%;
+    padding: 0 40px;
+  }
+  @media (max-width: $tablet) {
+    padding: 0 30px;
+  }
+  @media (max-width: $phone-wide) {
+    padding: 0 24px;
+  }
+  @media (max-width: $phone) {
+    padding: 0 20px;
+  }
+}

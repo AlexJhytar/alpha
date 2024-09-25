@@ -1,0 +1,543 @@
+@import '../../../../src/styles/abstacts/_style';
+
+$item: 20;
+
+.banner {
+  width: 100%;
+  @extend %flex;
+  align-items: center;
+  padding: 150px 0 90px;
+  margin-bottom: 180px;
+  flex-wrap: wrap;
+  //overflow: hidden;
+  position: relative;
+  min-height: 100vh;
+  background-color: $bg-dark-blue;
+  gap: 107px;
+  z-index: 2;
+  @media (max-width: $wide-screen) {
+    margin-bottom: 160px;
+    padding: 140px 0 60px;
+    gap: 70px;
+  }
+  @media (max-width: $desktop-wide) {
+    padding: 100px 0 30px;
+    margin-bottom: 120px;
+  }
+  @media (max-width: $ipad) {
+    padding: 90px 0 50px;
+    margin-bottom: 110px;
+  }
+  @media (max-width: $phone-wide) {
+    padding: 80px 0 50px;
+    margin-bottom: 100px;
+    gap: 60px;
+  }
+  @media (max-width: $phone) {
+    margin-bottom: 80px;
+    gap: 44px;
+  }
+
+  .page-portfolio &, .page-blog & {
+    padding: 150px 0 0;
+    @media (max-width: $wide-screen) {
+      padding: 140px 0 0;
+    }
+    @media (max-width: $desktop-wide) {
+      padding: 100px 0 20px;
+    }
+    @media (max-width: $ipad) {
+      padding: 90px 0 20px;
+    }
+    @media (max-width: $phone-wide) {
+      padding: 80px 0 30px;
+      margin-bottom: 80px;
+    }
+  }
+
+  .page-article & {
+    padding: 100px 0 140px;
+    @media (max-width: $wide-screen) {
+      padding: 110px 0 140px;
+    }
+    @media (max-width: $desktop-wide) {
+      padding: 100px 0 20px;
+    }
+    @media (max-width: $ipad) {
+      padding: 90px 0 20px;
+    }
+    @media (max-width: $phone-wide) {
+      padding: 80px 0 30px;
+      margin-bottom: 80px;
+    }
+  }
+
+  .ellipse {
+    pointer-events: none;
+
+    &:nth-of-type(1) {
+      position: absolute;
+      left: -70px;
+      top: 20%;
+      width: 480px;
+      height: 480px;
+      opacity: 0;
+      animation: ellipseOne 14s linear infinite;
+      animation-delay: 6s;
+      z-index: 2;
+      @media (max-width: $wide-screen) {
+        width: 400px;
+        height: 400px;
+        left: -200px;
+        top: 30%;
+      }
+      @media (max-width: $desktop-wide) {
+        width: 340px;
+        height: 340px;
+        left: -180px;
+        top: 28%;
+      }
+      @media (max-width: $ipad) {
+        left: -200px;
+      }
+      @media (max-width: $phone-wide) {
+        width: 240px;
+        height: 240px;
+      }
+      @media (max-width: $phone) {
+        width: 200px;
+        height: 200px;
+        left: -130px;
+        top: 30%;
+      }
+    }
+
+    &:nth-of-type(2) {
+      content: '';
+      position: absolute;
+      right: -70px;
+      top: -150%;
+      width: 480px;
+      height: 480px;
+      opacity: 0;
+      z-index: 2;
+      animation: ellipseSecond 14s linear infinite;
+      @media (max-width: $wide-screen) {
+        width: 400px;
+        height: 400px;
+        right: -200px;
+      }
+      @media (max-width: $desktop-wide) {
+        width: 340px;
+        height: 340px;
+        right: -150px;
+        bottom: -20%;
+      }
+      @media (max-width: $ipad) {
+        right: 0;
+        bottom: -20%;
+      }
+      @media (max-width: $phone-wide) {
+        width: 240px;
+        height: 240px;
+      }
+      @media (max-width: $phone) {
+        width: 200px;
+        height: 200px;
+      }
+    }
+
+    span {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-size: cover;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    width: calc(50% + 18px);
+    height: 140px;
+    bottom: -65px;
+    background-color: $bg-dark-blue;
+    transform: rotate(4deg);
+    border-radius: 0 0 3px 70px;
+    @media (max-width: $wide-screen) {
+      border-radius: 0 0 3px 60px;
+      bottom: -70px;
+    }
+    @media (max-width: $desktop-wide) {
+      bottom: -50px;
+      height: 100px;
+      border-radius: 0 0 3px 30px;
+    }
+    @media (max-width: $ipad) {
+      transform: rotate(6deg);
+      width: calc(50% + 19px);
+      bottom: -30px;
+    }
+    @media (max-width: $phone) {
+      width: calc(50% + 18px);
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    width: calc(50% + 18px);
+    height: 140px;
+    bottom: -65px;
+    background-color: $bg-dark-blue;
+    transform: rotate(-4deg);
+    border-radius: 0 0 70px 3px;
+    @media (max-width: $wide-screen) {
+      border-radius: 0 0 60px 3px;
+      bottom: -70px;
+    }
+    @media (max-width: $desktop-wide) {
+      bottom: -50px;
+      height: 100px;
+      border-radius: 0 0 30px 3px;
+    }
+    @media (max-width: $ipad) {
+      transform: rotate(-6deg);
+      width: calc(50% + 19px);
+      bottom: -30px;
+    }
+    @media (max-width: $phone) {
+      width: calc(50% + 18px);
+    }
+  }
+
+  &.loaded {
+    min-height: max-content;
+  }
+
+  &__wrap {
+    @extend %flex;
+    flex-flow: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+  }
+
+  &__components {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-flow: column;
+    gap: 60px;
+    @media (max-width: $ipad) {
+      gap: 50px;
+    }
+    @media (max-width: $phone-wide) {
+      gap: 40px;
+    }
+    @media (max-width: $phone) {
+      gap: 30px;
+    }
+  }
+
+  &__title {
+    font-size: 80px;
+    @include fw(800);
+    @include lh();
+    color: $color-white;
+    font-family: $ff_Manrope;
+    text-transform: uppercase;
+    @media (max-width: $wide-screen) {
+      font-size: 62px;
+    }
+    @media (max-width: $desktop-wide) {
+      font-size: 48px;
+    }
+    @media (max-width: $ipad) {
+      font-size: 46px;
+    }
+    @media (max-width: $tablet) {
+      font-size: 40px;
+    }
+    @media (max-width: $phone) {
+      font-size: 32px;
+    }
+
+    .page-article & {
+      font-size: 36px;
+      @include fw(500);
+      text-transform: none;
+      max-width: 920px;
+      margin: 15px auto 0;
+      @media (max-width: $wide-screen) {
+        font-size: 32px;
+      }
+      @media (max-width: $ipad) {
+        font-size: 28px;
+        text-transform: uppercase;
+      }
+      @media (max-width: $tablet) {
+        font-size: 28px;
+      }
+      @media (max-width: $phone) {
+        font-size: 24px;
+      }
+    }
+
+    .title-word {
+      @extend %inline-flex;
+      margin: 0 12px;
+    }
+  }
+
+  &__subtitle {
+    @include fw();
+    @include lh();
+    font-size: 16px;
+    width: 891px;
+    position: relative;
+    color: $color-white;
+    opacity: 0;
+    margin-top: 50px;
+    @media (max-width: $desktop-wide) {
+      width: 800px;
+      margin-top: 50px;
+      font-size: 15px;
+    }
+    @media (max-width: $ipad) {
+      width: 80%;
+      font-size: 15px;
+    }
+    @media (max-width: $tablet) {
+      width: 100%;
+    }
+    @media (max-width: $phone-wide) {
+      font-size: 14px;
+      margin-top: 40px;
+    }
+
+    p {
+      &:nth-last-child(1) {
+        margin-bottom: 0;
+      }
+    }
+
+    .loaded & {
+      animation: subTop 1s forwards;
+      animation-delay: .3s;
+    }
+
+  }
+
+  &__info {
+    margin-top: 40px;
+
+    span {
+      position: relative;
+      font-size: 16px;
+      color: rgba(177, 177, 177, 1);
+      @include lh();
+      @include fw();
+      @media (max-width: $wide-screen) {
+        font-size: 15px;
+      }
+      @media (max-width: $tablet) {
+        font-size: 14px;
+      }
+
+      &::after {
+        content: '\2022';
+        margin: 0 14px;
+      }
+
+      &:nth-last-child(1) {
+        &::after {
+          content: none;
+        }
+      }
+
+      &:nth-of-type(1) {
+        @media (max-width: $ipad) {
+          display: block;
+          margin-bottom: 20px;
+
+          &::after {
+            content: none;
+          }
+        }
+      }
+    }
+  }
+
+  &__tags {
+    background-color: $bg-dark-blue;
+    @extend %flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+
+    .container {
+      @extend %flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      @media (max-width: $ipad) {
+        width: calc(100% + 80px);
+      }
+      @media (max-width: $tablet) {
+        width: calc(100% + 60px);
+      }
+      @media (max-width: $phone-wide) {
+        width: calc(100% + 48px);
+      }
+      @media (max-width: $phone) {
+        width: calc(100% + 40px);
+      }
+    }
+
+    &-wrap {
+      @extend %inline-flex;
+      gap: 12px;
+      justify-content: flex-start;
+      @media (max-width: $ipad) {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 0 40px 20px 40px;
+      }
+      @media (max-width: $tablet) {
+        padding: 0 30px 20px 30px;
+      }
+      @media (max-width: $phone-wide) {
+        padding: 0 24px 20px 24px;
+      }
+      @media (max-width: $phone) {
+        padding: 0 20px 20px 20px;
+      }
+    }
+
+    a {
+      padding: 16px 30px 16px 57px;
+      border-radius: 30px;
+      position: relative;
+      cursor: pointer;
+      @include fw(500);
+      font-size: 16px;
+      @include lh();
+      transition: background-color .5s;
+      background: $bg-dark-blue;
+      color: $color-white;
+      @media (max-width: $desktop-wide) {
+        padding: 14px 30px 14px 57px;
+      }
+      @media (max-width: $desktop-wide) {
+        font-size: 15px;
+      }
+      @media (max-width: $ipad) {
+        padding: 12px 30px 12px 57px;
+      }
+      @media (max-width: $phone-wide) {
+        font-size: 14px;
+        padding: 12px 26px 12px 42px;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 30px;
+        top: calc(50% - 6px);
+        width: 11px;
+        height: 11px;
+        background-size: cover;
+        @media (max-width: $phone-wide) {
+          top: calc(50% - 5px);
+          width: 10px;
+          height: 10px;
+          left: 20px;
+        }
+      }
+
+      &.active {
+        pointer-events: none;
+        background-color: $bg-green;
+        color: $color-white;
+
+        &::before {
+          filter: brightness(20);
+        }
+      }
+
+      &:hover {
+        background-color: $bg-green;
+        color: $color-white;
+
+        &::before {
+          filter: brightness(20);
+        }
+      }
+
+    }
+  }
+
+  &__views {
+    background-color: $bg-dark-blue;
+    width: 100%;
+
+    ul {
+      @extend %flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+
+      li {
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        @media (max-width: $desktop-wide) {
+          width: 28px;
+          height: 28px;
+        }
+
+        img {
+          filter: brightness(0) invert(1);
+        }
+
+        svg {
+          width: 100%;
+          height: 100%;
+          fill: $bg-gray3;
+          transition: all .3s;
+        }
+
+        &.active {
+          pointer-events: none;
+
+          img {
+            filter: brightness(1) invert(0);
+          }
+
+          svg {
+            fill: $bg-green;
+          }
+        }
+
+        &:hover {
+          svg {
+            animation: slide .5s;
+            fill: $bg-white;
+            @media (max-width: $ipad) {
+              fill: $bg-green;
+            }
+          }
+        }
+      }
+    }
+  }
+}
