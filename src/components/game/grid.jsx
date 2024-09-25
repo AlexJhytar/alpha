@@ -100,13 +100,21 @@ const Grid = () => {
 		}
 		
 		const getOption = ( i ) => {
+				if (i > 0) {
+						ref.current.classList.add('loading');
+						
+						setTimeout(() => {
+								ref.current.classList.remove('loading');
+						}, 600);
+				}
+				
 				setOption(i);
 		}
 		
 		const checkBlock = () => {
 				let arrIndex = [];
 				const blocks = document.querySelectorAll('.grid-block');
-				blocks.forEach((block, i) => {
+				blocks.forEach(( block, i ) => {
 						const indexBlock = +block.dataset.index;
 						arrIndex.push(indexBlock);
 						
@@ -137,21 +145,23 @@ const Grid = () => {
 		
 		const startGame = ( e ) => {
 				setTypeGame(e.currentTarget.dataset.game);
+				
+				let buttons = document.querySelectorAll('.game-build');
+				if (buttons.length > 0) {
+						buttons.forEach(( item ) => {
+								item.classList.remove('active');
+						});
+				}
+				
+				e.currentTarget.classList.add('active');
 		}
 		
 		const initGame = () => {
 				const blocks = document.querySelectorAll('.grid-block');
-				blocks.forEach((block, i) => {
+				blocks.forEach(( block, i ) => {
 						if (block.classList.contains('correct')) block.classList.remove('correct');
 				});
 		}
-		
-		useEffect(() => {
-				setGameBox(buildGrid());
-				setTimeout(() => {
-						initGame();
-				}, 10);
-		}, [option]);
 		
 		const updateGrid = () => {
 				if (Object.keys(blocksInfo).length > 0 && blocksInfo.dragStart.block !== undefined && blocksInfo.dragOver.block !== undefined) {
@@ -165,20 +175,47 @@ const Grid = () => {
 		
 		const updateGridIMG = () => {
 				gridWithImg(option, uploadedImg.array);
-				setGrid(lineY)
+				setGrid(lineY);
+				document.querySelector('.game-image_label').classList.remove('loading')
+				document.querySelector('.game-image_label').classList.add('added');
 				return setGameBox(render(lineY, blockSize));
 		}
 		
 		useEffect(() => {
-				if (Object.keys(uploadedImg).length > 0) updateGridIMG();
+		
+				setGameBox(buildGrid());
+				
+				if (Object.keys(uploadedImg).length > 0) {
+						document.querySelector('.game-image_label').classList.remove('added');
+						document.querySelector('.game-image ul').innerHTML = '<li><span>Upload an image to get started</span></li>';
+				}
+				
+				ref.current.classList.remove('loaded');
+				
+				setTimeout(() => {
+						initGame();
+				}, 10);
+		}, [option]);
+		
+		useEffect(() => {
+				if (Object.keys(uploadedImg).length > 0) {
+						updateGridIMG();
+						ref.current.classList.add('loaded');
+				}
 		}, [uploadedImg]);
 		
 		useEffect(() => {
 				updateGrid();
+				
 				setTimeout(() => {
 						checkBlock();
 				}, 10);
 		}, [blocksInfo]);
+		
+		useEffect(() => {
+				setOption(0);
+				setUploadedImg({})
+		}, [typeGame]);
 		
 		return (
 				<>
@@ -191,15 +228,14 @@ const Grid = () => {
 										typeGame === 'puzzle' ?
 												<>
 														<SelectOption option={getOption}/>
-														<div className="line"></div>
-														<ChoiceImage callback={getImage}/>
+														{option > 0 ? <>
+																<ChoiceImage callback={getImage}/>
+														</> : ''}
 												</> : ''
 								}
 						</div>
 						
-						<div className="game-grid"
-						     style={typeGame === 'puzzle' && uploadedImg.img === undefined ? {opacity: '0'} : {}}
-						     ref={ref}>
+						<div className={`game-grid ${typeGame === 'puzzle' ? 'puzzle' : ''}`} ref={ref}>
 								{gameBox}
 						</div>
 				</>

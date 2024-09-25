@@ -2,10 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const ChoiceImage = ( {callback} ) => {
 		let inputImg = useRef();
-		let labelImg = useRef();
+		let tagImg = useRef(null);
 		let titleImg = useRef();
+		let labelImage = useRef();
 		let croppedImage = [];
-		let [statusLoading, setStatusLoading] = useState(false);
+		
+		const [pageURL, setPageURL] = useState('');
+		useEffect(() => {
+				setPageURL(window.location.origin);
+		});
 		
 		const createImage = ( target, countSections ) => {
 				const canvas = document.createElement('canvas');
@@ -37,20 +42,19 @@ const ChoiceImage = ( {callback} ) => {
 		}
 		
 		const handleFileSelect = ( event ) => {
+				labelImage.current.classList.add('loading');
 				const selectedFile = event.target.files[0];
 				const reader = new FileReader();
 				let sections = document.querySelectorAll('.grid-section');
-				setStatusLoading(false);
 				
 				reader.addEventListener('load', async () => {
 						await createImage(reader.result, sections.length);
-						labelImg.current.src = reader.result;
+						tagImg.current.src = reader.result;
 						titleImg.current.innerHTML = `
-							<li><span>Name: </span> ${selectedFile.name}</li>
 							<li><span>Type: </span> ${selectedFile.type}</li>
 							<li><span>Size: </span> ${(selectedFile.size / 1024).toFixed(0)} KB</li>
 						`;
-						setStatusLoading(true);
+						
 						callback({
 								img: reader.result,
 								array: croppedImage
@@ -71,8 +75,8 @@ const ChoiceImage = ( {callback} ) => {
 		return (
 				<div className="game-image">
 						<input type="file" ref={inputImg} id="game-image-input" accept="image/*"/>
-						<label className={`game-image_label ${statusLoading ? 'added' : 'loading'}`} htmlFor="game-image-input">
-								<img src={`https://artilab.pro/wp-content/themes/artilab-wp/build/img/ellipse.svg`} ref={labelImg} alt="" />
+						<label className={`game-image_label`} ref={labelImage} htmlFor="game-image-input">
+								<img src={`${pageURL}/image/white-bg.jpg`} ref={tagImg} alt=""/>
 						</label>
 						<ul ref={titleImg}>
 								<li><span>Upload an image to get started</span></li>

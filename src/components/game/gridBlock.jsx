@@ -16,7 +16,7 @@ const GridBlock = ( {blocks, size, over, start, end} ) => {
 		const dragEndHandler = ( e, block ) => {
 				const section = +e.currentTarget.closest('.grid-section').dataset.section;
 				e.target.classList.remove('started');
-				removeClass('.grid-block', 'hovered')
+				removeClass('.grid-block', 'hovered');
 				end({section, block});
 		}
 		
@@ -29,6 +29,7 @@ const GridBlock = ( {blocks, size, over, start, end} ) => {
 								section: +e.target.closest('.grid-section').dataset.section,
 								block: +e.target.dataset.block
 						}
+						
 						over(blockIndex);
 				}
 		}
@@ -46,15 +47,20 @@ const GridBlock = ( {blocks, size, over, start, end} ) => {
 						     draggable="true"
 						     data-block={i}
 						     data-index={id}
+						
 						     onDragOver={e => dragOverHandler(e)}
 						     onDragLeave={e => dragLeaveHandler(e)}
 						     onDragStart={e => dragStartHandler(e, i)}
 						     onDragEnd={e => dragEndHandler(e, i)}
+						     
+						     onTouchMove={e => dragOverHandler(e)}
+						     onTouchStart={e => dragStartHandler(e, i)}
+						     onTouchEnd={e => dragEndHandler(e, i)}
 						     style={{width: `${size}px`, height: `${size}px`}}
 						     key={i}
 						>
 								{
-										!isNaN(block) ? block : <img src={url} alt=""/>
+										!isNaN(block) ? block + 1 : <img src={url} alt=""/>
 								}
 						</div>
 				);

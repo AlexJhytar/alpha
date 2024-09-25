@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslations } from "next-intl";
 
 const SelectOption = ( {option} ) => {
@@ -16,11 +16,11 @@ const SelectOption = ( {option} ) => {
 		return (
 				<select className="game-option" ref={ref}>
 						<option value="">{t('select')}</option>
-						<option value="3">Easy</option>
-						<option value="4">Medium</option>
-						<option value="5">Hard</option>
-						<option value="6">Ultra Difficult</option>
-						<option value="12">Are you serious?</option>
+						<option value="4">Easy</option>
+						<option value="5">Medium</option>
+						<option value="6">Hard</option>
+						<option value="12">Ultra Difficult</option>
+						<option value="16">Are you serious?</option>
 				</select>
 		);
 };
