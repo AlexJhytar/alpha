@@ -1,6 +1,25 @@
 @import "../../styles/abstacts/variables";
 @import "../../styles/base/animation";
 
+:root {
+  --hue: 223;
+  --bg: hsl(var(--hue), 10%, 5%);
+  --fg: hsl(var(--hue), 10%, 95%);
+  --dot-a: 313;
+  --dot-b: 253;
+  --dot-c: 223;
+  --dot-d: 283;
+  --trans-dur: 0.3s;
+  font-size: calc(14px + (30 - 14) * (100vw - 280px) / (3840 - 280));
+
+  --bg-dark-blue: #1e2b46;
+  --bg-green: #0BC594;
+  --bg-cards: #325074;
+  --bg-cards-correct: #0BB186;
+  --bg-cards-hover: #6b00cd;
+  --border-cards: #14213d;
+}
+
 .game {
   padding: 100px 0;
   min-height: 100vh;
@@ -8,21 +27,23 @@
   display: flex;
   align-items: center;
   user-select: none;
+  background: var(--bg-dark-blue);
 
   &-frame {
-    width: 800px;
     display: flex;
     flex-flow: column;
     align-items: center;
     justify-content: center;
     gap: 36px;
     position: relative;
+    width: 100%;
   }
 
   &__wrap {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
   }
 
   &-win {
@@ -46,6 +67,7 @@
     align-items: center;
     gap: 15px;
     width: 100%;
+    max-width: 800px;
 
     input[type=file] {
       border: 1px solid black;
@@ -92,13 +114,52 @@
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 36px;
+    justify-content: center;
+    box-shadow: inset 0 5px 5px rgba(0, 0, 0, 0.2);
+    min-height: 160px;
+
+    &__wrap {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      max-width: 1200px;
+    }
 
     .line {
-      height: 60px;
+      height: 26px;
       width: 1px;
-      border-right: 1px dashed $bg-green;
+      border-right: 1px dashed var(--bg-cards);
 
+    }
+  }
+
+  &-option {
+    width: 300px;
+    height: 64px;
+    text-align: left;
+    cursor: pointer;
+    border: 2px dashed $bg-green;
+    background: $bg-green;
+    border-radius: 10px;
+    transition: all .3s;
+    font-size: 14px;
+    padding: 0 20px;
+    text-transform: uppercase;
+    appearance: none;
+    position: relative;
+    color: white;
+
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: .65em auto;
+
+    option {
+      &:nth-of-type(1) {
+        display: none;
+      }
     }
   }
 
@@ -107,7 +168,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 18px;
-    width: 30%;
+    width: 260px;
 
     ul {
       display: flex;
@@ -119,9 +180,11 @@
         display: block;
         font-size: 14px;
         line-height: 1.3;
+        color: white;
+        text-transform: uppercase;
 
         span {
-          font-weight: 500;
+          font-weight: 300;
         }
       }
     }
@@ -131,15 +194,15 @@
     }
 
     &_label {
-      width: 76px;
-      height: 76px;
+      width: 72px;
+      height: 72px;
       border-radius: 50%;
       cursor: pointer;
       background-size: cover;
       transition: all .3s;
       backface-visibility: hidden;
       position: relative;
-      border: 2px dashed $bg-green;
+      border: 1px dashed var(--bg-green);
 
       &::before {
         content: '';
@@ -199,6 +262,7 @@
       }
 
       &:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, .3);
 
         &::before {
           opacity: 1;
@@ -217,45 +281,89 @@
     }
   }
 
-  &-option {
-    width: 38%;
-    height: 64px;
-    text-align: left;
-    cursor: pointer;
-    border: 2px dashed $bg-green;
-    border-radius: 10px;
+  &-help {
+    background: transparent;
+    height: 72px;
+    width: 72px;
+    border-radius: 50%;
+    border: 1px dashed var(--bg-green);
+    backface-visibility: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     transition: all .3s;
-    font-size: 14px;
-    padding: 0 20px;
-    text-transform: uppercase;
-    appearance:none;
-    position: relative;
 
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
-    background-repeat: no-repeat;
-    background-position: right 15px top 50%;
-    background-size: .65em auto;
+    img {
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      transition: all .3s;
+    }
 
-    option {
-      background: white;
-      color: black;
-      &:nth-of-type(1) {
-        display: none;
+    span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      transition: opacity .3s;
+      font-size: 30px;
+      color: white;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &.active {
+      pointer-events: none;
+
+      img {
+        opacity: .2;
+      }
+
+      span {
+        opacity: 1;
+      }
+    }
+
+    &:hover {
+      box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+
+      img {
+        transform: scale(1.05);
       }
     }
   }
+
+  &-timer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 64px;
+    background: #0bc594;
+    border-radius: 10px;
+    padding: 5px 20px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+
+    span {
+      text-align: right;
+      width: 16px;
+      position: relative;
+      font-size: 14px;
+      line-height: 1;
+      color: white;
+    }
+  }
+
   /*   */
 
   &-grid {
     width: 100%;
     height: 100%;
+    max-width: 800px;
     max-height: 100%;
     display: flex;
     flex-flow: column;
     gap: 2px;
     position: relative;
     touch-action: none;
-    transition: all .3s;
 
     &::before {
       content: '';
@@ -264,10 +372,10 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background: $bg-dark-blue;
+      background: var(--bg-dark-blue);
       z-index: 1;
       pointer-events: none;
-      border-radius: 10px;
+      border-radius: 4px;
       opacity: 0;
       transition: all .5s;
     }
@@ -287,22 +395,19 @@
       transition: all .3s;
       z-index: 2000;
       opacity: 0;
-      box-shadow: 0 0 20px 0 rgba(255,255,255, 0.2);
+      box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.2);
     }
 
     @keyframes flipX {
       0% {
-        -webkit-transform: perspective(200px) rotateX(0deg) rotateY(0deg);
         transform: perspective(200px) rotateX(0deg) rotateY(0deg);
       }
 
       50% {
-        -webkit-transform: perspective(200px) rotateX(-180deg) rotateY(0deg);
         transform: perspective(200px) rotateX(-180deg) rotateY(0deg);
       }
 
       to {
-        -webkit-transform: perspective(200px) rotateX(-180deg) rotateY(-180deg);
         transform: perspective(200px) rotateX(-180deg) rotateY(-180deg);
       }
     }
@@ -329,9 +434,10 @@
 
       .grid-block {
         backface-visibility: hidden;
+        border: 2px solid var(--bg-cards);
 
         &:hover {
-          border: 3px solid $bg-green-hover;
+          border: 2px solid var(--bg-cards-correct);
           background: $bg-green-hover;
           box-shadow: 0 4px 10px rgba(0, 0, 0, .5);
           transform: scale(1.05);
@@ -377,8 +483,8 @@
     }
 
     &-block {
-      border: 3px solid #14213d;
-      background: #14213d;
+      border: 1px solid var(--border-cards);
+      background: var(--bg-cards);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -387,15 +493,12 @@
       cursor: grab;
       color: white;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0);
-      transition: opacity .3s, transform .3s, box-shadow .3s, background-color .3s, border-color .3s;
+      transition: opacity .3s, transform .3s, box-shadow .3s, background-color .3s, border-color .3s, color .3s;
       position: relative;
       transform: scale(1);
-      overflow: hidden;
 
       &.correct {
-        border: 0;
-        background-color: #0BB186;
+        background-color: var(--bg-cards-correct);
         pointer-events: none;
 
 
@@ -420,7 +523,6 @@
         opacity: 0;
         transform: scale(0);
         pointer-events: none;
-        transition: all .3s;
       }
 
       &:active {
@@ -428,8 +530,8 @@
       }
 
       &:hover {
-        border: 3px solid #6b00cd;
-        background: #6b00cd;
+        border: 1px solid var(--bg-cards-hover);
+        background: var(--bg-cards-hover);
         box-shadow: 0 0 20px rgba(0, 0, 0, .5);
       }
 
@@ -439,6 +541,90 @@
 
       &.hovered {
         opacity: .2;
+      }
+
+      &.small-blocks {
+        border-radius: 4px;
+      }
+
+      &[data-move="true"] {
+        background: var(--bg-green);
+        animation: tilt-shaking .3s linear infinite alternate;
+        z-index: 2;
+
+        &:hover {
+          border-color: var(--border-cards);
+        }
+
+        @keyframes tilt-shaking {
+          0% { transform: rotate(3deg) scale(1.05); }
+          100% { transform: rotate(-3deg) scale(1.05); }
+        }
+      }
+
+      &[data-help="true"] {
+        z-index: 1;
+        background: rgba($bg-green, .1);
+        color: transparent;
+
+        &:hover {
+          border-color: var(--border-cards);
+          color: white;
+          background: var(--bg-cards-hover);
+
+          &::before, &::after {
+            content: none;
+          }
+        }
+
+        &:before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-image: none;
+          border: 2px solid transparent;
+          border-radius: inherit;
+          animation: moveIcon 3s linear infinite;
+          animation-delay: 1.8s;
+          opacity: 1;
+          z-index: 100;
+        }
+
+        &:after {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          border: 2px solid transparent;
+          border-radius: inherit;
+          animation: moveIcon 3s linear infinite;
+          animation-delay: .3s;
+          opacity: 1;
+          z-index: 100;
+        }
+
+        @keyframes moveIcon {
+          from {
+            border-color: var(--bg-green);
+            transform: perspective(1000px) translateZ(90px) scale(.9);
+            opacity: 0
+          }
+          30% {
+            opacity: 1;
+          }
+
+          to {
+            border-color: var(--bg-green);
+            transform: perspective(1000px) translate3d(0px,0px,200px) scale(.96);
+            opacity: 0
+          }
+        }
+
       }
 
       img {
@@ -453,18 +639,6 @@
   }
 }
 
-
-:root {
-  --hue: 223;
-  --bg: hsl(var(--hue),10%,5%);
-  --fg: hsl(var(--hue),10%,95%);
-  --dot-a: 313;
-  --dot-b: 253;
-  --dot-c: 223;
-  --dot-d: 283;
-  --trans-dur: 0.3s;
-  font-size: calc(14px + (30 - 14) * (100vw - 280px) / (3840 - 280));
-}
 
 .pl {
   $debug: false;
@@ -483,7 +657,7 @@
   &__dot {
     animation: {
       duration: 3s;
-      timing-function: cubic-bezier(0.37,0,0.63,1);
+      timing-function: cubic-bezier(0.37, 0, 0.63, 1);
       iteration-count: infinite;
       // play-state: paused;
     };
@@ -499,7 +673,7 @@
       display: flex;
 
       &:before {
-        color: hsl(0,0,100%);
+        color: hsl(0, 0, 100%);
         display: block;
         margin: auto;
         text-transform: uppercase;
@@ -510,12 +684,11 @@
     @each $dot in $dots {
       &--#{$dot} {
         animation-name: dot-#{$dot};
-        background-color: hsl(var(--dot-#{$dot}),90%,60%);
-        box-shadow:
-            -0.5em -0.5em 1em hsl(var(--dot-#{$dot}),90%,30%) inset,
-            0.125em 0.125em 0.25em hsl(var(--dot-#{$dot}),90%,60%) inset,
-            -0.25em -0.25em 0.75em 0.75em hsl(var(--dot-#{$dot}),90%,50%) inset,
-            0.75em 0.75em 0.75em hsla(var(--hue),10%,5%,0.7);
+        background-color: hsl(var(--dot-#{$dot}), 90%, 60%);
+        box-shadow: -0.5em -0.5em 1em hsl(var(--dot-#{$dot}), 90%, 30%) inset,
+        0.125em 0.125em 0.25em hsl(var(--dot-#{$dot}), 90%, 60%) inset,
+        -0.25em -0.25em 0.75em 0.75em hsl(var(--dot-#{$dot}), 90%, 50%) inset,
+        0.75em 0.75em 0.75em hsla(var(--hue), 10%, 5%, 0.7);
 
         @if $debug == true {
           &:before {
@@ -539,6 +712,7 @@
     transform: rotateY(1turn) rotateZ(-1turn) translateX(-100%) rotateY(-1turn) rotateZ(1turn);
   }
 }
+
 @keyframes dot-b {
   from {
     transform: rotateY(0) rotateZ(0) translateX(100%) rotateY(0) rotateZ(0);
@@ -550,6 +724,7 @@
     transform: rotateY(1turn) rotateZ(-1turn) translateX(100%) rotateY(-1turn) rotateZ(1turn);
   }
 }
+
 @keyframes dot-c {
   from {
     transform: rotateZ(0) rotateX(0) translateY(-100%) rotateZ(0) rotateX(0);
@@ -561,6 +736,7 @@
     transform: rotateZ(-1turn) rotateX(1turn) translateY(-100%) rotateZ(1turn) rotateX(-1turn);
   }
 }
+
 @keyframes dot-d {
   from {
     transform: rotateZ(0) rotateX(0) translateY(100%) rotateZ(0) rotateX(0);

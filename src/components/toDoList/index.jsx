@@ -1,11 +1,23 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import './toDoList.scss';
 
 const ToDoList = () => {
 		let idTask = 0;
 		let tasks = [];
-		JSON.stringify()
+		
+		const saveTasksLoc = () => {
+				localStorage.setItem('tasks', JSON.stringify(tasks));
+		};
+		
+		const loadTasks = () => {
+				const savedTasks = localStorage.getItem('tasks');
+				if (savedTasks) {
+						tasks = JSON.parse(savedTasks);
+						idTask = tasks.length ? Math.max(...tasks.map(task => task.id)) + 1 : 0;
+				}
+		};
+		
 		const addTask = () => {
 				let input = document.querySelector('#todo-input');
 				
@@ -14,12 +26,21 @@ const ToDoList = () => {
 						input.value = '';
 						idTask++;
 						renderTasksList();
+						saveTasksLoc();
+						
 				}
 		};
 		
-		const deleteTask = ( id ) => {			
-			tasks = tasks.filter(task => task.id !== id);
-    		renderTasksList(); 
+		const deleteTask = ( id ) => {
+				tasks = tasks.filter(task => task.id !== id);
+				renderTasksList();
+				saveTasksLoc();
+		};
+		
+		const completedTask = (id) => {
+				tasks = tasks.map(task => task.id == id ? {...task, isCompleted: !task.isCompleted} : task);
+				renderTasksList();
+				saveTasksLoc();
 		};
 		
 		const tasksList = () => {
@@ -29,20 +50,23 @@ const ToDoList = () => {
 						const taskElement = document.createElement('div');
 						taskElement.className = 'todolist__list-item';
 						taskElement.innerHTML = `
-        <label class="custom-checkbox">
-          <input type="checkbox"/>
-          <span></span>
-        </label>
-        <input class="todolist__list-item-text" type="text" readOnly value="${task.text}"></input>
-        <button class="todolist__list-item-edit"></button>
-        <button class="todolist__list-item-delete">
-           Delete
-        </button>
-      `;
-
+							<label class="custom-checkbox" title="Status">
+								<input type="checkbox" ${task.isCompleted ? 'checked' : ''}/>
+								<span></span>
+							</label>
+							<input class="todolist__list-item-text" type="text" readOnly value="${task.text}"></input>
+							<button class="todolist__list-item-edit" title="Edit"></button>
+							<button class="todolist__list-item-delete" title="Delete"></button>
+						`;
+						
 						taskElement.querySelector('.todolist__list-item-delete').addEventListener('click', () => {
-							deleteTask(task.id);
+								deleteTask(task.id);
 						});
+						
+						taskElement.querySelector('input[type="checkbox"]').addEventListener('change', () => {
+								completedTask(task.id);
+						});
+						
 						toDoList.appendChild(taskElement);
 				});
 		};
@@ -50,6 +74,11 @@ const ToDoList = () => {
 		const renderTasksList = () => {
 				tasksList();
 		};
+		
+		useEffect(() => {
+				loadTasks();
+				renderTasksList();
+		}, [])
 		
 		return (
 				<div className="container">

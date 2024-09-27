@@ -47,6 +47,8 @@ const GridBlock = ( {blocks, size, over, start, end} ) => {
 						     draggable="true"
 						     data-block={i}
 						     data-index={id}
+						     data-help="false"
+						     data-move="false"
 						
 						     onDragOver={e => dragOverHandler(e)}
 						     onDragLeave={e => dragLeaveHandler(e)}

@@ -76,7 +76,7 @@ const ChoiceImage = ( {callback} ) => {
 				<div className="game-image">
 						<input type="file" ref={inputImg} id="game-image-input" accept="image/*"/>
 						<label className={`game-image_label`} ref={labelImage} htmlFor="game-image-input">
-								<img src={`${pageURL}/image/white-bg.jpg`} ref={tagImg} alt=""/>
+								<img src={`${pageURL}/image/1x1.png`} ref={tagImg} alt=""/>
 						</label>
 						<ul ref={titleImg}>
 								<li><span>Upload an image to get started</span></li>

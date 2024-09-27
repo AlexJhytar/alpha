@@ -4,6 +4,9 @@ import GridSection from "@/components/game/gridSection";
 import ChoiceImage from "@/components/game/choiceImage";
 import SelectOption from "@/components/game/selectOption";
 import StartGame from "@/components/game/startGame";
+import Timer from "@/components/game/timer";
+import { useStopwatch } from "react-timer-hook";
+import Help from "@/components/game/help";
 
 let lineX = [];
 let lineY = [];
@@ -17,6 +20,24 @@ const Grid = () => {
 		const [uploadedImg, setUploadedImg] = useState({});
 		const [gameBox, setGameBox] = useState(<></>);
 		const ref = useRef(null);
+		
+		const {
+				totalSeconds,
+				seconds,
+				minutes,
+				hours,
+				isRunning,
+				start,
+				pause,
+				reset,
+		} = useStopwatch({autoStart: false});
+		
+		const expiryTime = new Date();
+		expiryTime.setSeconds(expiryTime.getSeconds() + 59);
+		
+		const formattedHours = String(hours).padStart(2, '0');
+		const formattedMinutes = String(minutes).padStart(2, '0');
+		const formattedSeconds = String(seconds).padStart(2, '0');
 		
 		const shuffleArray = ( array ) => {
 				for (let i = array.length - 1; i > 0; i--) {
@@ -102,6 +123,8 @@ const Grid = () => {
 		const getOption = ( i ) => {
 				if (i > 0) {
 						ref.current.classList.add('loading');
+						reset();
+						pause();
 						
 						setTimeout(() => {
 								ref.current.classList.remove('loading');
@@ -135,6 +158,7 @@ const Grid = () => {
 						const result = areConsecutiveNumbers(arrIndex);
 						
 						if (result) {
+								pause();
 								const win = document.createElement('div');
 								win.classList.add('game-win');
 								win.innerHTML = 'You win!';
@@ -156,10 +180,21 @@ const Grid = () => {
 				e.currentTarget.classList.add('active');
 		}
 		
-		const initGame = () => {
+		const initGame = ( numb ) => {
 				const blocks = document.querySelectorAll('.grid-block');
 				blocks.forEach(( block, i ) => {
 						if (block.classList.contains('correct')) block.classList.remove('correct');
+						numb > 6 ? block.classList.add('small-blocks') : block.classList.remove('small-blocks');
+						block.setAttribute('data-help', 'false');
+						block.setAttribute('data-move', 'false');
+				});
+		}
+		
+		const removeHelper = () => {
+				const blocks = document.querySelectorAll('.grid-block');
+				blocks.forEach(( block, i ) => {
+						block.setAttribute('data-help', 'false');
+						block.setAttribute('data-move', 'false');
 				});
 		}
 		
@@ -169,6 +204,7 @@ const Grid = () => {
 						let over = lineY[blocksInfo.dragOver.section][blocksInfo.dragOver.block];
 						updateElement(blocksInfo.dragStart.section, blocksInfo.dragStart.block, over);
 						updateElement(blocksInfo.dragOver.section, blocksInfo.dragOver.block, start);
+						removeHelper();
 						return setGameBox(render(grid, blockSize));
 				}
 		}
@@ -182,18 +218,19 @@ const Grid = () => {
 		}
 		
 		useEffect(() => {
-		
 				setGameBox(buildGrid());
 				
+				setUploadedImg({})
 				if (Object.keys(uploadedImg).length > 0) {
 						document.querySelector('.game-image_label').classList.remove('added');
 						document.querySelector('.game-image ul').innerHTML = '<li><span>Upload an image to get started</span></li>';
+						ref.current.classList.add('loaded');
+				} else {
+						ref.current.classList.remove('loaded');
 				}
 				
-				ref.current.classList.remove('loaded');
-				
 				setTimeout(() => {
-						initGame();
+						initGame(option);
 				}, 10);
 		}, [option]);
 		
@@ -206,6 +243,7 @@ const Grid = () => {
 		
 		useEffect(() => {
 				updateGrid();
+				isRunning ? console.log('running') : start();
 				
 				setTimeout(() => {
 						checkBlock();
@@ -213,27 +251,63 @@ const Grid = () => {
 		}, [blocksInfo]);
 		
 		useEffect(() => {
+				reset();
+				pause();
 				setOption(0);
 				setUploadedImg({})
 		}, [typeGame]);
+		
+		const gameTypeNumbers = () => {
+				const checkOption = () => {
+					return (<>
+							<div className="line"></div>
+							<Help option={option} expiryTimestamp={expiryTime}/>
+							<div className="line"></div>
+							<Timer hours={formattedHours} minutes={formattedMinutes}
+							       seconds={formattedSeconds}/>
+					</>)
+				}
+				
+				return (
+						<>
+								<SelectOption option={getOption}/>
+								{option > 0 ? checkOption() : ''}
+						</>
+				)
+		}
+		
+		const gameTypePuzzle = () => {
+				const checkOption = () => {
+						return (<>
+								<div className="line"></div>
+								<ChoiceImage callback={getImage}/>
+								<div className="line"></div>
+								<Help option={option} expiryTimestamp={expiryTime}/>
+								<div className="line"></div>
+								<Timer hours={formattedHours} minutes={formattedMinutes}
+								       seconds={formattedSeconds}/>
+						
+						</>)
+				}
+				
+				return (
+						<>
+								<SelectOption option={getOption}/>
+								{option > 0 ? checkOption() : ''}
+						</>
+				)
+		}
 		
 		return (
 				<>
 						<StartGame onClick={startGame}/>
 						<div className="game-settings">
-								{
-										typeGame === 'numbers' ? <SelectOption option={getOption}/> : ''
-								}
-								{
-										typeGame === 'puzzle' ?
-												<>
-														<SelectOption option={getOption}/>
-														{option > 0 ? <>
-																<ChoiceImage callback={getImage}/>
-														</> : ''}
-												</> : ''
-								}
+								<div className="game-settings__wrap">
+										{'numbers' === typeGame ? gameTypeNumbers() : ''}
+										{'puzzle' === typeGame ? gameTypePuzzle() : ''}
+								</div>
 						</div>
+						
 						
 						<div className={`game-grid ${typeGame === 'puzzle' ? 'puzzle' : ''}`} ref={ref}>
 								{gameBox}
