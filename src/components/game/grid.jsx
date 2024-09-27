@@ -81,6 +81,7 @@ const Grid = () => {
 		
 		const getBlocks = ( i ) => {
 				setBlocksInfo(i);
+				isRunning ? console.log('running') : start();
 		}
 		
 		const updateElement = ( section, block, value ) => {
@@ -182,9 +183,12 @@ const Grid = () => {
 		
 		const initGame = ( numb ) => {
 				const blocks = document.querySelectorAll('.grid-block');
+				const winBlock = document.querySelector('.game-win');
+				if (winBlock !== null) winBlock.remove();
 				blocks.forEach(( block, i ) => {
+						console.log(numb)
 						if (block.classList.contains('correct')) block.classList.remove('correct');
-						numb > 6 ? block.classList.add('small-blocks') : block.classList.remove('small-blocks');
+						numb > 6 ? block.setAttribute('data-type', 'small') : block.removeAttribute('data-type');
 						block.setAttribute('data-help', 'false');
 						block.setAttribute('data-move', 'false');
 				});
@@ -210,6 +214,7 @@ const Grid = () => {
 		}
 		
 		const updateGridIMG = () => {
+				console.log(blocksInfo)
 				gridWithImg(option, uploadedImg.array);
 				setGrid(lineY);
 				document.querySelector('.game-image_label').classList.remove('loading')
@@ -237,13 +242,15 @@ const Grid = () => {
 		useEffect(() => {
 				if (Object.keys(uploadedImg).length > 0) {
 						updateGridIMG();
-						ref.current.classList.add('loaded');
+						initGame(option);
+						setTimeout(()=> {
+								ref.current.classList.add('loaded');
+						}, 200)
 				}
 		}, [uploadedImg]);
 		
 		useEffect(() => {
 				updateGrid();
-				isRunning ? console.log('running') : start();
 				
 				setTimeout(() => {
 						checkBlock();
@@ -258,6 +265,8 @@ const Grid = () => {
 		}, [typeGame]);
 		
 		const gameTypeNumbers = () => {
+				if (document.querySelector('.game-grid').classList.contains('no-image'))
+						document.querySelector('.game-grid').classList.remove('no-image');
 				const checkOption = () => {
 					return (<>
 							<div className="line"></div>
@@ -281,12 +290,18 @@ const Grid = () => {
 						return (<>
 								<div className="line"></div>
 								<ChoiceImage callback={getImage}/>
-								<div className="line"></div>
-								<Help option={option} expiryTimestamp={expiryTime}/>
-								<div className="line"></div>
-								<Timer hours={formattedHours} minutes={formattedMinutes}
-								       seconds={formattedSeconds}/>
-						
+								
+								{
+										Object.keys(uploadedImg).length > 0 ? (
+												<>
+														<div className="line"></div>
+														<Help option={option} expiryTimestamp={expiryTime}/>
+														<div className="line"></div>
+														<Timer hours={formattedHours} minutes={formattedMinutes}
+														       seconds={formattedSeconds}/>
+												</>
+										) : ''
+								}
 						</>)
 				}
 				
@@ -309,7 +324,7 @@ const Grid = () => {
 						</div>
 						
 						
-						<div className={`game-grid ${typeGame === 'puzzle' ? 'puzzle' : ''}`} ref={ref}>
+						<div className={`game-grid ${typeGame === 'puzzle' ? 'puzzle' : ''}  ${Object.keys(uploadedImg).length > 0 && typeGame === 'puzzle' ? '' : 'no-image'}`} ref={ref}>
 								{gameBox}
 						</div>
 				</>
