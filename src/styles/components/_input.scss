@@ -40,7 +40,7 @@ input:not([type=submit]) {
     top: 0;
     width: 20px;
     height: 20px;
-    border: 2px solid $bg-dark-blue;
+    border: 2px solid rgba($bg-dark-blue, .75); 
     border-radius: 3px;
     transition: $standart;
     padding: 2px;
@@ -56,6 +56,7 @@ input:not([type=submit]) {
       transform-origin: center;
       margin: auto;
       opacity: 0;
+      transition: $standart;
     }
   }
   input {
@@ -67,6 +68,7 @@ input:not([type=submit]) {
     opacity: 0;
     &:checked + span {
       background: $bg-dark-blue;
+      border-color: $bg-dark-blue;
       &:after {
         opacity: 1;
       }

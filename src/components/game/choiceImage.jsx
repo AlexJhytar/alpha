@@ -47,8 +47,8 @@ const ChoiceImage = ( {callback} ) => {
 				const reader = new FileReader();
 				let sections = document.querySelectorAll('.grid-section');
 				
-				reader.addEventListener('load', async () => {
-						await createImage(reader.result, sections.length);
+				reader.addEventListener('load',  () => {
+						createImage(reader.result, sections.length);
 						tagImg.current.src = reader.result;
 						titleImg.current.innerHTML = `
 							<li><span>Type: </span> ${selectedFile.type}</li>

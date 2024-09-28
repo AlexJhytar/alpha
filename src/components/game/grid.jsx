@@ -7,9 +7,7 @@ import StartGame from "@/components/game/startGame";
 import Timer from "@/components/game/timer";
 import { useStopwatch } from "react-timer-hook";
 import Help from "@/components/game/help";
-
-let lineX = [];
-let lineY = [];
+import { gridArray, gridWithImg, updateHandler } from "@/components/game/alGame";
 
 const Grid = () => {
 		const [blocksInfo, setBlocksInfo] = useState([]);
@@ -39,58 +37,8 @@ const Grid = () => {
 		const formattedMinutes = String(minutes).padStart(2, '0');
 		const formattedSeconds = String(seconds).padStart(2, '0');
 		
-		const shuffleArray = ( array ) => {
-				for (let i = array.length - 1; i > 0; i--) {
-						const j = Math.floor(Math.random()*(i + 1));
-						[array[i], array[j]] = [array[j], array[i]];
-				}
-		}
-		const gridArray = ( index ) => {
-				lineX = [];
-				lineY = [];
-				
-				for (let i = 0; i < index*index; i++) {
-						lineX.push(i);
-				}
-				
-				shuffleArray(lineX)
-				
-				const chunkSize = Math.ceil(lineX.length/index); // Округлюємо вгору, щоб розділити рівномірно
-				
-				for (let j = 0; j < lineX.length; j += chunkSize) {
-						lineY.push(lineX.slice(j, j + chunkSize));
-				}
-		}
-		const gridWithImg = ( count, arr ) => {
-				lineX = [];
-				lineY = [];
-				
-				for (let i = 0; i < arr.length; i++) {
-						lineX.push({url: arr[i], id: i});
-						
-				}
-				
-				shuffleArray(lineX)
-				
-				const chunkSize = Math.ceil(lineX.length/count); // Округлюємо вгору, щоб розділити рівномірно
-				
-				for (let j = 0; j < arr.length; j += chunkSize) {
-						lineY.push(lineX.slice(j, j + chunkSize));
-				}
-		}
-		
 		const getBlocks = ( i ) => {
 				setBlocksInfo(i);
-				isRunning ? console.log('running') : start();
-		}
-		
-		const updateElement = ( section, block, value ) => {
-				// Create a new copy of the grid state
-				let newOption = [...grid];
-				// Update the value of the block in the new copy of the grid
-				newOption[section][block] = value;
-				// Update the state with the new copy
-				setGrid(newOption);
 		}
 		
 		const render = ( options, dimension ) => {
@@ -108,13 +56,13 @@ const Grid = () => {
 		
 		const buildGrid = () => {
 				checkWinOnBuild();
+				const getGrid = gridArray({option: option});
 				const gridWidth = ref.current.getBoundingClientRect().width;
 				const dimensions = gridWidth/option;
 				dimensions === Infinity ? setBlockSize(0) : setBlockSize(dimensions);
-				gridArray(option);
-				setGrid(lineY);
+				setGrid(getGrid);
 				
-				return render(lineY, dimensions);
+				return render(getGrid, dimensions);
 		}
 		
 		const getImage = ( i ) => {
@@ -203,9 +151,21 @@ const Grid = () => {
 		}
 		
 		const updateGrid = () => {
+				const updateElement = ( section, block, value ) => {
+						let newOption = [...grid];
+						newOption[section][block] = value;
+						setGrid(newOption);
+				}
+				
 				if (Object.keys(blocksInfo).length > 0 && blocksInfo.dragStart.block !== undefined && blocksInfo.dragOver.block !== undefined) {
-						let start = lineY[blocksInfo.dragStart.section][blocksInfo.dragStart.block];
-						let over = lineY[blocksInfo.dragOver.section][blocksInfo.dragOver.block];
+						let start = updateHandler({
+								section: blocksInfo.dragStart.section,
+								block: blocksInfo.dragStart.block
+						});
+						let over = updateHandler({
+								section: blocksInfo.dragOver.section,
+								block: blocksInfo.dragOver.block
+						});
 						updateElement(blocksInfo.dragStart.section, blocksInfo.dragStart.block, over);
 						updateElement(blocksInfo.dragOver.section, blocksInfo.dragOver.block, start);
 						removeHelper();
@@ -214,23 +174,23 @@ const Grid = () => {
 		}
 		
 		const updateGridIMG = () => {
-				console.log(blocksInfo)
-				gridWithImg(option, uploadedImg.array);
-				setGrid(lineY);
+				const getGrid = gridWithImg({selectedValue: option, arr: uploadedImg.array});
+				setGrid(getGrid);
 				document.querySelector('.game-image_label').classList.remove('loading')
 				document.querySelector('.game-image_label').classList.add('added');
-				return setGameBox(render(lineY, blockSize));
+				return setGameBox(render(getGrid, blockSize));
 		}
 		
 		useEffect(() => {
 				setGameBox(buildGrid());
+				setUploadedImg({});
 				
-				setUploadedImg({})
 				if (Object.keys(uploadedImg).length > 0) {
 						document.querySelector('.game-image_label').classList.remove('added');
 						document.querySelector('.game-image ul').innerHTML = '<li><span>Upload an image to get started</span></li>';
 						ref.current.classList.add('loaded');
-				} else {
+				}
+				else {
 						ref.current.classList.remove('loaded');
 				}
 				
@@ -243,13 +203,14 @@ const Grid = () => {
 				if (Object.keys(uploadedImg).length > 0) {
 						updateGridIMG();
 						initGame(option);
-						setTimeout(()=> {
+						setTimeout(() => {
 								ref.current.classList.add('loaded');
 						}, 200)
 				}
 		}, [uploadedImg]);
 		
 		useEffect(() => {
+				if (!isRunning) start();
 				updateGrid();
 				
 				setTimeout(() => {
@@ -268,13 +229,13 @@ const Grid = () => {
 				if (document.querySelector('.game-grid').classList.contains('no-image'))
 						document.querySelector('.game-grid').classList.remove('no-image');
 				const checkOption = () => {
-					return (<>
-							<div className="line"></div>
-							<Help option={option} expiryTimestamp={expiryTime}/>
-							<div className="line"></div>
-							<Timer hours={formattedHours} minutes={formattedMinutes}
-							       seconds={formattedSeconds}/>
-					</>)
+						return (<>
+								<div className="line"></div>
+								<Help option={option} expiryTimestamp={expiryTime}/>
+								<div className="line"></div>
+								<Timer hours={formattedHours} minutes={formattedMinutes}
+								       seconds={formattedSeconds}/>
+						</>)
 				}
 				
 				return (
@@ -324,7 +285,9 @@ const Grid = () => {
 						</div>
 						
 						
-						<div className={`game-grid ${typeGame === 'puzzle' ? 'puzzle' : ''}  ${Object.keys(uploadedImg).length > 0 && typeGame === 'puzzle' ? '' : 'no-image'}`} ref={ref}>
+						<div
+								className={`game-grid ${typeGame === 'puzzle' ? 'puzzle' : ''}  ${Object.keys(uploadedImg).length > 0 && typeGame === 'puzzle' ? '' : 'no-image'}`}
+								ref={ref}>
 								{gameBox}
 						</div>
 				</>

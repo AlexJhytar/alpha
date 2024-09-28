@@ -25,9 +25,17 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 16px;
-            padding: 6px 24px;
+            margin-bottom: 6px;
+            padding: 4px 24px;
             border-radius: 10px;
+            transition: $standart;
+            border: 1px solid transparent;
+            &.editing {
+                border-color: $bg-dark-blue;
+                .todolist__list-item-edit {
+                    opacity: 1;
+                }
+            }
             &:nth-child(odd) {
                 background: rgba($bg-dark, .055);
             }
@@ -39,6 +47,7 @@
                 outline: none;
                 background-color: transparent !important;
                 border: 0 !important;
+                padding: 0 17px !important;
                 &[readonly] {
                     pointer-events: none;
                     color: rgba($bg-dark-blue, .75); 
