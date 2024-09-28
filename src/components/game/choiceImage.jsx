@@ -51,8 +51,9 @@ const ChoiceImage = ( {callback} ) => {
 						createImage(reader.result, sections.length);
 						tagImg.current.src = reader.result;
 						titleImg.current.innerHTML = `
-							<li><span>Type: </span> ${selectedFile.type}</li>
-							<li><span>Size: </span> ${(selectedFile.size / 1024).toFixed(0)} KB</li>
+							<li class="text"><span>Type: </span> ${selectedFile.type}</li>
+							<li class="text"><span>Size: </span> ${(selectedFile.size / 1024).toFixed(0)} KB</li>
+							<li class="btn"><span>show full image</span> </li>
 						`;
 						
 						callback({

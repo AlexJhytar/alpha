@@ -67,6 +67,9 @@ const Grid = () => {
 		
 		const getImage = ( i ) => {
 				setUploadedImg(i);
+				
+				reset();
+				pause();
 		}
 		
 		const getOption = ( i ) => {
@@ -109,6 +112,7 @@ const Grid = () => {
 						if (result) {
 								pause();
 								const win = document.createElement('div');
+								document.querySelector('.game-help').style.display = 'none';
 								win.classList.add('game-win');
 								win.innerHTML = 'You win!';
 								ref.current.append(win);
@@ -132,9 +136,14 @@ const Grid = () => {
 		const initGame = ( numb ) => {
 				const blocks = document.querySelectorAll('.grid-block');
 				const winBlock = document.querySelector('.game-win');
+				const gameHelp = document.querySelector('.game-help');
+				if (gameHelp !== null) {
+						gameHelp.style.display = 'flex';
+						if (gameHelp.classList.contains('active')) gameHelp.classList.remove('active');
+				}
+				
 				if (winBlock !== null) winBlock.remove();
 				blocks.forEach(( block, i ) => {
-						console.log(numb)
 						if (block.classList.contains('correct')) block.classList.remove('correct');
 						numb > 6 ? block.setAttribute('data-type', 'small') : block.removeAttribute('data-type');
 						block.setAttribute('data-help', 'false');
@@ -194,6 +203,10 @@ const Grid = () => {
 						ref.current.classList.remove('loaded');
 				}
 				
+				if (document.querySelector('.game-help') !== null) {
+						document.querySelector('.game-help').style.display = 'flex';
+				}
+				
 				setTimeout(() => {
 						initGame(option);
 				}, 10);
@@ -230,9 +243,7 @@ const Grid = () => {
 						document.querySelector('.game-grid').classList.remove('no-image');
 				const checkOption = () => {
 						return (<>
-								<div className="line"></div>
 								<Help option={option} expiryTimestamp={expiryTime}/>
-								<div className="line"></div>
 								<Timer hours={formattedHours} minutes={formattedMinutes}
 								       seconds={formattedSeconds}/>
 						</>)
@@ -249,15 +260,12 @@ const Grid = () => {
 		const gameTypePuzzle = () => {
 				const checkOption = () => {
 						return (<>
-								<div className="line"></div>
 								<ChoiceImage callback={getImage}/>
 								
 								{
 										Object.keys(uploadedImg).length > 0 ? (
 												<>
-														<div className="line"></div>
 														<Help option={option} expiryTimestamp={expiryTime}/>
-														<div className="line"></div>
 														<Timer hours={formattedHours} minutes={formattedMinutes}
 														       seconds={formattedSeconds}/>
 												</>
@@ -277,12 +285,16 @@ const Grid = () => {
 		return (
 				<>
 						<StartGame onClick={startGame}/>
-						<div className="game-settings">
-								<div className="game-settings__wrap">
-										{'numbers' === typeGame ? gameTypeNumbers() : ''}
-										{'puzzle' === typeGame ? gameTypePuzzle() : ''}
-								</div>
-						</div>
+						{
+								
+								typeGame === '' ? <></> :
+										<div className="game-settings">
+												<div className="game-settings__wrap">
+														{'numbers' === typeGame ? gameTypeNumbers() : ''}
+														{'puzzle' === typeGame ? gameTypePuzzle() : ''}
+												</div>
+										</div>
+						}
 						
 						
 						<div
