@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { changeImage } from "@/components/game/alGame";
 
-const ChoiceImage = ( {showImg, callback} ) => {
+const ChoiceImage = ( {showImg, removedImg, callback} ) => {
 		let inputImg = useRef(null);
 		let tagImg = useRef(null);
 		let imageBlock = useRef(null);
@@ -51,9 +51,10 @@ const ChoiceImage = ( {showImg, callback} ) => {
 						deleteImage.classList.add('game-image_remove')
 						imageBlock.current.append(deleteImage);
 						
-						deleteImage.addEventListener('click', e => {
-								changeImage();
+						deleteImage.addEventListener('click', async e => {
+								await changeImage();
 								e.target.remove();
+								removedImg(true);
 						})
 						
 						callback({

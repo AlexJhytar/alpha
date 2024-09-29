@@ -23,6 +23,7 @@ const Grid = () => {
 		const [typeGame, setTypeGame] = useState('');
 		const [uploadedImg, setUploadedImg] = useState({});
 		const [showIMg, setShowIMg] = useState(false);
+		const [removedImg, setRemovedImg] = useState(false);
 		const [gameBox, setGameBox] = useState(<></>);
 		const ref = useRef(null);
 		
@@ -68,6 +69,7 @@ const Grid = () => {
 				const dimensions = gridWidth/option;
 				dimensions === Infinity ? setBlockSize(0) : setBlockSize(dimensions);
 				setGrid(getGrid);
+				ref.current.classList.add('loading');
 				
 				return render(getGrid, dimensions);
 		}
@@ -81,13 +83,14 @@ const Grid = () => {
 		
 		const getOption = ( i ) => {
 				if (i > 0) {
-						ref.current.classList.add('loading');
 						reset();
 						pause();
 						
-						setTimeout(() => {
-								ref.current.classList.remove('loading');
-						}, 600);
+						if (typeGame === 'numbers') {
+								setTimeout(() => {
+										ref.current.classList.remove('loading');
+								}, 300);
+						}
 				}
 				
 				setOption(i);
@@ -125,6 +128,10 @@ const Grid = () => {
 								ref.current.append(win);
 						}
 				}
+		}
+		
+		const checkRemovedImg = (i) => {
+				setRemovedImg(i)
 		}
 		
 		const startGame = ( e ) => {
@@ -233,12 +240,9 @@ const Grid = () => {
 						updateGridIMG();
 						initGame(option);
 						setTimeout(() => {
+								ref.current.classList.remove('loading');
 								ref.current.classList.add('loaded');
-								setShowIMg(true);
 						}, 200)
-						setTimeout(() => {
-								setShowIMg(false);
-						}, 4000)
 				}
 		}, [uploadedImg]);
 		
@@ -258,7 +262,16 @@ const Grid = () => {
 				setUploadedImg({})
 		}, [typeGame]);
 		
-		useEffect(()=> {}, [showIMg])
+		useEffect(()=> {}, [showIMg]);
+		
+		useEffect(()=> {
+				if (!removedImg) ref.current.classList.add('loading');
+				if (removedImg) {
+						setUploadedImg({});
+						setRemovedImg(false)
+				}
+		}, [removedImg]);
+		
 		
 		const gameTypeNumbers = () => {
 				if (document.querySelector('.game-grid').classList.contains('no-image'))
@@ -282,7 +295,7 @@ const Grid = () => {
 		const gameTypePuzzle = () => {
 				const checkOption = () => {
 						return (<>
-								<ChoiceImage statusImg={showIMg} showImg={showImage} callback={getImage}/>
+								<ChoiceImage removedImg={checkRemovedImg} statusImg={showIMg} showImg={showImage} callback={getImage}/>
 								
 								{
 										Object.keys(uploadedImg).length > 0 ? (
@@ -320,7 +333,7 @@ const Grid = () => {
 						
 						
 						<div
-								className={`game-grid ${option > 0 ? '' : 'no-option'} ${typeGame === 'puzzle' ? 'puzzle' : ''}  ${Object.keys(uploadedImg).length > 0 && typeGame === 'puzzle' ? '' : 'no-image'}`}
+								className={`game-grid ${option > 0 ? '' : 'no-option'} ${typeGame === 'puzzle' ? 'puzzle loading' : ''}  ${Object.keys(uploadedImg).length > 0 && typeGame === 'puzzle' ? '' : 'no-image'}`}
 								ref={ref}>
 								{gameBox}
 								{showIMg ? <ShowIMG status={hideImage} src={uploadedImg.img}/> : ''}
