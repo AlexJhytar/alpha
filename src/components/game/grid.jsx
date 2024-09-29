@@ -7,7 +7,13 @@ import StartGame from "@/components/game/startGame";
 import Timer from "@/components/game/timer";
 import { useStopwatch } from "react-timer-hook";
 import Help from "@/components/game/help";
-import { gridArray, gridWithImg, updateHandler } from "@/components/game/alGame";
+import {
+		gridArray,
+		gridWithImg,
+		updateHandler,
+		changeImage
+} from "@/components/game/alGame";
+import ShowIMG from "@/components/game/showIMG";
 
 const Grid = () => {
 		const [blocksInfo, setBlocksInfo] = useState([]);
@@ -16,6 +22,7 @@ const Grid = () => {
 		const [grid, setGrid] = useState([]);
 		const [typeGame, setTypeGame] = useState('');
 		const [uploadedImg, setUploadedImg] = useState({});
+		const [showIMg, setShowIMg] = useState(false);
 		const [gameBox, setGameBox] = useState(<></>);
 		const ref = useRef(null);
 		
@@ -139,7 +146,7 @@ const Grid = () => {
 				const gameHelp = document.querySelector('.game-help');
 				if (gameHelp !== null) {
 						gameHelp.style.display = 'flex';
-						if (gameHelp.classList.contains('active')) gameHelp.classList.remove('active');
+						if (gameHelp.querySelector('button').classList.contains('active')) gameHelp.querySelector('button').classList.remove('active');
 				}
 				
 				if (winBlock !== null) winBlock.remove();
@@ -185,18 +192,26 @@ const Grid = () => {
 		const updateGridIMG = () => {
 				const getGrid = gridWithImg({selectedValue: option, arr: uploadedImg.array});
 				setGrid(getGrid);
-				document.querySelector('.game-image_label').classList.remove('loading')
-				document.querySelector('.game-image_label').classList.add('added');
+				document.querySelector('.game-image').classList.remove('loading')
+				document.querySelector('.game-image').classList.add('added');
 				return setGameBox(render(getGrid, blockSize));
 		}
+		
+		const showImage = (i) => {
+				setShowIMg(i);
+		}
+		
+		const hideImage = (i) => {
+				setShowIMg(i);
+		}
+		
 		
 		useEffect(() => {
 				setGameBox(buildGrid());
 				setUploadedImg({});
 				
 				if (Object.keys(uploadedImg).length > 0) {
-						document.querySelector('.game-image_label').classList.remove('added');
-						document.querySelector('.game-image ul').innerHTML = '<li><span>Upload an image to get started</span></li>';
+						changeImage();
 						ref.current.classList.add('loaded');
 				}
 				else {
@@ -210,6 +225,7 @@ const Grid = () => {
 				setTimeout(() => {
 						initGame(option);
 				}, 10);
+				
 		}, [option]);
 		
 		useEffect(() => {
@@ -218,7 +234,11 @@ const Grid = () => {
 						initGame(option);
 						setTimeout(() => {
 								ref.current.classList.add('loaded');
+								setShowIMg(true);
 						}, 200)
+						setTimeout(() => {
+								setShowIMg(false);
+						}, 4000)
 				}
 		}, [uploadedImg]);
 		
@@ -237,6 +257,8 @@ const Grid = () => {
 				setOption(0);
 				setUploadedImg({})
 		}, [typeGame]);
+		
+		useEffect(()=> {}, [showIMg])
 		
 		const gameTypeNumbers = () => {
 				if (document.querySelector('.game-grid').classList.contains('no-image'))
@@ -260,7 +282,7 @@ const Grid = () => {
 		const gameTypePuzzle = () => {
 				const checkOption = () => {
 						return (<>
-								<ChoiceImage callback={getImage}/>
+								<ChoiceImage statusImg={showIMg} showImg={showImage} callback={getImage}/>
 								
 								{
 										Object.keys(uploadedImg).length > 0 ? (
@@ -298,9 +320,10 @@ const Grid = () => {
 						
 						
 						<div
-								className={`game-grid ${typeGame === 'puzzle' ? 'puzzle' : ''}  ${Object.keys(uploadedImg).length > 0 && typeGame === 'puzzle' ? '' : 'no-image'}`}
+								className={`game-grid ${option > 0 ? '' : 'no-option'} ${typeGame === 'puzzle' ? 'puzzle' : ''}  ${Object.keys(uploadedImg).length > 0 && typeGame === 'puzzle' ? '' : 'no-image'}`}
 								ref={ref}>
 								{gameBox}
+								{showIMg ? <ShowIMG status={hideImage} src={uploadedImg.img}/> : ''}
 						</div>
 				</>
 		)

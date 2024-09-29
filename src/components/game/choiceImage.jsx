@@ -1,16 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { changeImage } from "@/components/game/alGame";
 
-const ChoiceImage = ( {callback} ) => {
-		let inputImg = useRef();
+const ChoiceImage = ( {showImg, callback} ) => {
+		let inputImg = useRef(null);
 		let tagImg = useRef(null);
-		let titleImg = useRef();
-		let labelImage = useRef();
+		let imageBlock = useRef(null);
 		let croppedImage = [];
-		
-		const [pageURL, setPageURL] = useState('');
-		useEffect(() => {
-				setPageURL(window.location.origin);
-		});
 		
 		const createImage = ( target, countSections ) => {
 				const canvas = document.createElement('canvas');
@@ -42,19 +37,24 @@ const ChoiceImage = ( {callback} ) => {
 		}
 		
 		const handleFileSelect = ( event ) => {
-				labelImage.current.classList.add('loading');
+				imageBlock.current.classList.add('loading');
 				const selectedFile = event.target.files[0];
 				const reader = new FileReader();
 				let sections = document.querySelectorAll('.grid-section');
 				
-				reader.addEventListener('load',  () => {
+				reader.addEventListener('load', () => {
 						createImage(reader.result, sections.length);
 						tagImg.current.src = reader.result;
-						titleImg.current.innerHTML = `
-							<li class="text"><span>Type: </span> ${selectedFile.type}</li>
-							<li class="text"><span>Size: </span> ${(selectedFile.size / 1024).toFixed(0)} KB</li>
-							<li class="btn"><span>show full image</span> </li>
-						`;
+						changeImage();
+						
+						const deleteImage = document.createElement('div');
+						deleteImage.classList.add('game-image_remove')
+						imageBlock.current.append(deleteImage);
+						
+						deleteImage.addEventListener('click', e => {
+								changeImage();
+								e.target.remove();
+						})
 						
 						callback({
 								img: reader.result,
@@ -69,19 +69,25 @@ const ChoiceImage = ( {callback} ) => {
 				event.target.value = '';
 		}
 		
+		const showImage = e => {
+				showImg(true)
+		}
+		
 		useEffect(() => {
 				inputImg.current.addEventListener('change', handleFileSelect);
+				changeImage();
 		}, []);
 		
+		useEffect(() => {}, [showImg]);
+		
 		return (
-				<div className="game-image">
+				<div className="game-image" data-status="default" ref={imageBlock}>
 						<input type="file" ref={inputImg} id="game-image-input" accept="image/*"/>
-						<label className={`game-image_label`} ref={labelImage} htmlFor="game-image-input">
-								<img src={`${pageURL}/image/1x1.png`} ref={tagImg} alt=""/>
-						</label>
-						<ul ref={titleImg}>
-								<li><span>Upload an image to get started</span></li>
-						</ul>
+						<label className={`game-image_label`} htmlFor="game-image-input"/>
+						
+						<div className="game-image_thumbnail" onClick={showImage}>
+								<img ref={tagImg} alt="puzzle thumbnail"/>
+						</div>
 				</div>
 		
 		);

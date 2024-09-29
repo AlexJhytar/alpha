@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTimer } from 'react-timer-hook';
 
-const Help = ({option, expiryTimestamp}) => {
+const Help = ( {option, expiryTimestamp} ) => {
 		const [pageURL, setPageURL] = useState('');
 		useEffect(() => {
 				setPageURL(window.location.origin);
@@ -21,7 +21,7 @@ const Help = ({option, expiryTimestamp}) => {
 		} = useTimer({
 				expiryTimestamp,
 				autoStart: false,
-				onExpire: () => document.querySelector('.game-help').classList.remove('active'),
+				onExpire: () => document.querySelector('.game-help button').classList.remove('active'),
 		});
 		
 		useEffect(() => {
@@ -30,7 +30,7 @@ const Help = ({option, expiryTimestamp}) => {
 		}, [option])
 		
 		const getRandomNumber = max => {
-				return Math.floor(Math.random() * (max + 1));
+				return Math.floor(Math.random()*(max + 1));
 		}
 		
 		const handleClickHelp = e => {
@@ -50,12 +50,12 @@ const Help = ({option, expiryTimestamp}) => {
 						block.setAttribute('data-help', 'false');
 				})
 				
-				const randomIndex = Math.floor(Math.random() * hiddenBlocks.length);
+				const randomIndex = Math.floor(Math.random()*hiddenBlocks.length);
 				const randomNumber = hiddenBlocks[randomIndex];
 				gameBlocks[randomNumber].setAttribute('data-move', 'true');
-				const helpIndex =+ gameBlocks[randomNumber].dataset.index;
+				const helpIndex = +gameBlocks[randomNumber].dataset.index;
 				
-				gameBlocks.forEach((block, i) => {
+				gameBlocks.forEach(( block, i ) => {
 						if (i === helpIndex) block.setAttribute('data-help', 'true');
 				})
 		}
@@ -63,10 +63,12 @@ const Help = ({option, expiryTimestamp}) => {
 		let checkSec = seconds === 0 ? '' : seconds
 		
 		return (
-				<button type="button" onClick={handleClickHelp} className="game-help button">
-						<span>{checkSec}</span>
-						<img src={`${pageURL}/image/help.png`} alt=""/>
-				</button>
+				<div className="game-help">
+						<button type="button" onClick={handleClickHelp} className="game-help__button button">
+								<span>{checkSec}</span>
+								<img src={`${pageURL}/image/help.png`} alt=""/>
+						</button>
+				</div>
 		);
 };
 
