@@ -5,6 +5,7 @@ const GridSection = ( {sections, dimension, results} ) => {
 		const [dragStart, setDragStart] = useState({});
 		const [dragEnd, setDragEnd] = useState({});
 		const [dragOver, setDragOver] = useState({});
+		const [opacity, setOpacity] = useState(0);
 		
 		const dragStartHandler = ( i ) => {
 				setDragStart(i);

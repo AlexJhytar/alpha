@@ -22,20 +22,22 @@
 }
 
 .game {
-  padding: 100px 0;
+  padding: 60px 0;
   min-height: 100vh;
   width: 100%;
   display: flex;
   align-items: center;
   user-select: none;
   background: var(--bg-dark-blue);
+  @media (max-width: $wide-screen) {
+    padding: 30px 0;
+  }
 
   &-frame {
     display: flex;
     flex-flow: column;
     align-items: center;
     justify-content: center;
-    gap: 36px;
     position: relative;
     width: 100%;
   }
@@ -69,6 +71,9 @@
     gap: 15px;
     width: 100%;
     max-width: 800px;
+    @media (max-width: $wide-screen) {
+      max-width: 700px;
+    }
 
     input[type=file] {
       border: 1px solid black;
@@ -76,13 +81,21 @@
       cursor: pointer;
     }
 
-    button {
+    .button {
       width: 50%;
       display: flex;
       align-items: center;
       gap: 20px;
       justify-content: flex-start;
       box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+      transition: all .5s;
+
+      span {
+        @media (max-width: $wide-screen) {
+          font-size: 18px;
+        }
+      }
 
       &::after {
         background-position: top 10px right 10px;
@@ -93,6 +106,10 @@
       &.active {
         background-color: $bg-green-hover;
         pointer-events: none;
+        box-shadow: none;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        transform: translateY(20px);
 
         &::before {
           background-color: $bg-green-hover;
@@ -103,11 +120,16 @@
           transition: all .5s;
           background-color: $bg-green-hover;
           background-image: url("./../../../public/image/icon-check.svg");
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
         }
       }
 
       img {
         width: 64px;
+        @media (max-width: $wide-screen) {
+          width: 52px;
+        }
       }
     }
   }
@@ -121,18 +143,27 @@
     box-shadow: inset 0 5px 5px rgba(0, 0, 0, 0.2);
     z-index: 2;
 
+    &::before {
+      content: "";
+      position: absolute;
+      top: 110px;
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(rgba(11, 197, 148, .04) 20%, rgba(30, 43, 70, 0.5) 100%);
+      z-index: -1;
+    }
+
     &__wrap {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 48px;
-      padding: 0 48px;
-      max-width: 1200px;
-      background: #182339;
+      align-items: flex-end;
+      justify-content: flex-start;
+      gap: 32px;
+      max-width: 800px;
+      width: 100%;
       border-radius: 0 0 10px 10px;
-      min-height: 110px;
-      box-shadow: inset 0 8px 8px rgba(0, 0, 0, 0.2);
       position: relative;
+      padding-top: 24px;
+
     }
 
   }
@@ -144,7 +175,8 @@
     cursor: pointer;
     border: 2px dashed $bg-green;
     background: $bg-green;
-    border-radius: 10px;
+    border-radius:  10px;
+    margin-bottom: 4px;
     transition: all .3s;
     font-size: 14px;
     padding: 0 20px;
@@ -158,6 +190,11 @@
     background-repeat: no-repeat;
     background-position: right 15px top 50%;
     background-size: .65em auto;
+
+    @media (max-width: $wide-screen) {
+      height: 52px;
+      width: 270px;
+    }
 
     option {
       &:nth-of-type(1) {
@@ -174,6 +211,22 @@
     width: 72px;
     height: 72px;
     position: relative;
+    @media (max-width: $wide-screen) {
+      height: 62px;
+      width: 62px;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -24px;
+      margin: 0 auto;
+      width: 1px;
+      height: 24px;
+      border-right: 1px dashed var(--bg-green);
+    }
 
     ul {
       display: flex;
@@ -188,6 +241,9 @@
       padding: 10px;
       pointer-events: none;
       animation: addImage 1s linear infinite alternate;
+      @media (max-width: $wide-screen) {
+        left: -46px;
+      }
 
       li {
         display: block;
@@ -353,6 +409,9 @@
           opacity: .7;
           transition: var(--trans);
           z-index: 2;
+          @media (max-width: $wide-screen) {
+            background-size: 22px;
+          }
         }
 
         &:hover {
@@ -378,6 +437,12 @@
       background-size: cover;
       opacity: 0;
       pointer-events: none;
+      @media (max-width: $wide-screen) {
+        width: 26px;
+        height: 26px;
+        top: -6px;
+        left: -6px;
+      }
 
       .added & {
         opacity: 1;
@@ -388,12 +453,6 @@
         transform: scale(1.05);
       }
     }
-
-    //&:hover {
-    //  .game-image_remove {
-    //    opacity: 1;
-    //  }
-    //}
   }
 
   &-fullImage {
@@ -435,15 +494,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    width: 180px;
-    right: -200px;
-    top: 0;
-    padding: 0 24px;
-    background: #182339;
-    border-radius: 0 0 10px 10px;
-    min-height: 110px;
-    box-shadow: inset 0 8px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    border-radius: 50%;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -24px;
+      margin: 0 auto;
+      width: 1px;
+      height: 24px;
+      border-right: 1px dashed var(--bg-green);
+    }
 
     &.inactive {
       pointer-events: none;
@@ -457,8 +522,11 @@
       border-radius: 50%;
       border: 1px dashed var(--bg-green);
       backface-visibility: hidden;
-      box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
       transition: all .3s;
+      @media (max-width: $wide-screen) {
+        width: 62px;
+        height: 62px;
+      }
 
       img {
         height: 100%;
@@ -507,15 +575,8 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    left: -200px;
-    width: 180px;
-    top: 0;
-    padding: 0 24px;
-    max-width: 1200px;
-    background: #182339;
-    border-radius: 0 0 10px 10px;
-    min-height: 110px;
-    box-shadow: inset 0 8px 8px rgba(0, 0, 0, 0.2);
+    right: 0;
+    top: 28px;
 
     &.inactive {
       pointer-events: none;
@@ -525,13 +586,15 @@
     &__wrap {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
       height: 64px;
       position: relative;
       background: #0bc594;
       border-radius: 10px;
-      padding: 5px 20px;
-      //box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+      width: 120px;
+      //padding: 5px 20px;
+      box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
     }
 
     //&::before {
@@ -566,6 +629,11 @@
     gap: 2px;
     position: relative;
     touch-action: none;
+    margin-top: 24px;
+    z-index: 2;
+    @media (max-width: $wide-screen) {
+      max-width: 700px;
+    }
 
     &::before {
       content: '';
@@ -573,13 +641,12 @@
       left: 0;
       top: 0;
       width: 100%;
-      height: 100%;
-      background: var(--bg-dark-blue);
-      z-index: 1;
+      height: 0;
+      background: var(--bg-green);
+      z-index: 20;
       pointer-events: none;
       border-radius: 4px;
-      opacity: 0;
-      transition: var(--trans);
+      transition: all .5s;
     }
 
     &::after {
@@ -591,11 +658,10 @@
       height: 48px;
       border-radius: 50%;
       border: 4px solid white;
-      -webkit-animation: flipX 1s linear infinite;
       animation: flipX 1s linear infinite;
       pointer-events: none;
-      transition: all .3s;
-      z-index: 2000;
+      transition: all .1s ease;
+      z-index: 20;
       opacity: 0;
       box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.2);
     }
@@ -615,13 +681,21 @@
     }
 
     &.loading {
-      &::before {
-        transition: all 0s;
-        pointer-events: auto;
+      &::after {
         opacity: 1;
       }
 
-      &::after {
+      .grid-block {
+
+        animation: fade-in .7s linear forwards;
+      }
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+      to {
         opacity: 1;
       }
     }
@@ -630,8 +704,15 @@
       pointer-events: none;
       overflow: hidden;
 
+      &.loading {
+        &::before {
+          pointer-events: auto;
+          height: 100%;
+        }
+      }
+
       &::before {
-        opacity: 1;
+        animation: fade-in 1s ease forwards;
       }
 
       .grid-block {
@@ -687,7 +768,9 @@
       overflow: visible;
 
       &::before {
-        opacity: 0;
+        height: 0;
+        bottom: 0;
+        top: auto;
       }
     }
 

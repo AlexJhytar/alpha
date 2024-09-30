@@ -7,12 +7,7 @@ import StartGame from "@/components/game/startGame";
 import Timer from "@/components/game/timer";
 import { useStopwatch } from "react-timer-hook";
 import Help from "@/components/game/help";
-import {
-		gridArray,
-		gridWithImg,
-		updateHandler,
-		changeImage
-} from "@/components/game/alGame";
+import { gridArray, gridWithImg, updateHandler, changeImage } from "@/components/game/alGame";
 import ShowIMG from "@/components/game/showIMG";
 
 const Grid = () => {
@@ -22,7 +17,7 @@ const Grid = () => {
 		const [grid, setGrid] = useState([]);
 		const [typeGame, setTypeGame] = useState('');
 		const [uploadedImg, setUploadedImg] = useState({});
-		const [showIMg, setShowIMg] = useState(false);
+		const [showIMgModal, setShowIMgModal] = useState(false);
 		const [removedImg, setRemovedImg] = useState(false);
 		const [gameBox, setGameBox] = useState(<></>);
 		const ref = useRef(null);
@@ -89,7 +84,7 @@ const Grid = () => {
 						if (typeGame === 'numbers') {
 								setTimeout(() => {
 										ref.current.classList.remove('loading');
-								}, 300);
+								}, 700);
 						}
 				}
 				
@@ -130,7 +125,7 @@ const Grid = () => {
 				}
 		}
 		
-		const checkRemovedImg = (i) => {
+		const checkRemovedImg = ( i ) => {
 				setRemovedImg(i)
 		}
 		
@@ -204,18 +199,18 @@ const Grid = () => {
 				return setGameBox(render(getGrid, blockSize));
 		}
 		
-		const showImage = (i) => {
-				setShowIMg(i);
+		const showImage = ( i ) => {
+				setShowIMgModal(i);
 		}
 		
-		const hideImage = (i) => {
-				setShowIMg(i);
+		const hideImage = ( i ) => {
+				setShowIMgModal(i);
 		}
-		
 		
 		useEffect(() => {
 				setGameBox(buildGrid());
 				setUploadedImg({});
+				setShowIMgModal(false);
 				
 				if (Object.keys(uploadedImg).length > 0) {
 						changeImage();
@@ -262,16 +257,15 @@ const Grid = () => {
 				setUploadedImg({})
 		}, [typeGame]);
 		
-		useEffect(()=> {}, [showIMg]);
+		useEffect(() => {}, [showIMgModal]);
 		
-		useEffect(()=> {
+		useEffect(() => {
 				if (!removedImg) ref.current.classList.add('loading');
 				if (removedImg) {
 						setUploadedImg({});
 						setRemovedImg(false)
 				}
 		}, [removedImg]);
-		
 		
 		const gameTypeNumbers = () => {
 				if (document.querySelector('.game-grid').classList.contains('no-image'))
@@ -295,7 +289,8 @@ const Grid = () => {
 		const gameTypePuzzle = () => {
 				const checkOption = () => {
 						return (<>
-								<ChoiceImage removedImg={checkRemovedImg} statusImg={showIMg} showImg={showImage} callback={getImage}/>
+								<ChoiceImage removedImg={checkRemovedImg} statusImg={showIMgModal} showImg={showImage}
+								             callback={getImage}/>
 								
 								{
 										Object.keys(uploadedImg).length > 0 ? (
@@ -323,8 +318,8 @@ const Grid = () => {
 						{
 								
 								typeGame === '' ? <></> :
-										<div className="game-settings">
-												<div className="game-settings__wrap">
+										<div className={`game-settings ${'puzzle' === typeGame ? 'puzzle' : ''}`}>
+												<div className={`game-settings__wrap`}>
 														{'numbers' === typeGame ? gameTypeNumbers() : ''}
 														{'puzzle' === typeGame ? gameTypePuzzle() : ''}
 												</div>
@@ -336,7 +331,7 @@ const Grid = () => {
 								className={`game-grid ${option > 0 ? '' : 'no-option'} ${typeGame === 'puzzle' ? 'puzzle loading' : ''}  ${Object.keys(uploadedImg).length > 0 && typeGame === 'puzzle' ? '' : 'no-image'}`}
 								ref={ref}>
 								{gameBox}
-								{showIMg ? <ShowIMG status={hideImage} src={uploadedImg.img}/> : ''}
+								{showIMgModal ? <ShowIMG status={hideImage} src={uploadedImg.img}/> : ''}
 						</div>
 				</>
 		)
