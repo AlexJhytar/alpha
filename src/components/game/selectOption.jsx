@@ -20,7 +20,7 @@ const SelectOption = ( {option} ) => {
 						<option value="5">Medium</option>
 						<option value="6">Hard</option>
 						<option value="12">Ultra Difficult</option>
-						<option value="16">Are you serious?</option>
+						{/*<option value="16">Are you serious?</option>*/}
 				</select>
 		);
 };

@@ -69,6 +69,18 @@ const Grid = () => {
 				return render(getGrid, dimensions);
 		}
 		
+		const buildGridIMG = () => {
+				checkWinOnBuild();
+				const getGrid = gridWithImg({selectedValue: option, arr: uploadedImg.array});
+				const gridWidth = ref.current.getBoundingClientRect().width;
+				const dimensions = gridWidth/option;
+				dimensions === Infinity ? setBlockSize(0) : setBlockSize(dimensions);
+				setGrid(getGrid);
+				document.querySelector('.game-image').classList.remove('loading')
+				document.querySelector('.game-image').classList.add('added');
+				return render(getGrid, blockSize);
+		}
+		
 		const getImage = ( i ) => {
 				setUploadedImg(i);
 				
@@ -130,16 +142,25 @@ const Grid = () => {
 		}
 		
 		const startGame = ( e ) => {
-				setTypeGame(e.currentTarget.dataset.game);
+				document.querySelector('.game').classList.add('update');
+				let target = e.currentTarget;
+				let type = target.dataset.game;
 				
-				let buttons = document.querySelectorAll('.game-build');
-				if (buttons.length > 0) {
-						buttons.forEach(( item ) => {
-								item.classList.remove('active');
-						});
-				}
+				setTimeout(() => {
+						document.querySelector('.game').classList.remove('update');
+				}, 1000);
 				
-				e.currentTarget.classList.add('active');
+				setTimeout(() => {
+						setTypeGame(type);
+						
+						let buttons = document.querySelectorAll('.game-build');
+						if (buttons.length > 0) {
+								buttons.forEach(( item ) => {
+										item.classList.remove('active');
+								});
+						}
+						target.classList.add('active');
+				}, 500)
 		}
 		
 		const initGame = ( numb ) => {
@@ -191,14 +212,6 @@ const Grid = () => {
 				}
 		}
 		
-		const updateGridIMG = () => {
-				const getGrid = gridWithImg({selectedValue: option, arr: uploadedImg.array});
-				setGrid(getGrid);
-				document.querySelector('.game-image').classList.remove('loading')
-				document.querySelector('.game-image').classList.add('added');
-				return setGameBox(render(getGrid, blockSize));
-		}
-		
 		const showImage = ( i ) => {
 				setShowIMgModal(i);
 		}
@@ -208,7 +221,15 @@ const Grid = () => {
 		}
 		
 		useEffect(() => {
-				setGameBox(buildGrid());
+				ref.current.removeAttribute('style');
+				if (Object.keys(uploadedImg).length > 0) {
+						setTimeout(() => {
+								setGameBox(buildGrid());
+						}, 500)
+				} else {
+						setGameBox(buildGrid());
+				}
+				
 				setUploadedImg({});
 				setShowIMgModal(false);
 				
@@ -232,9 +253,18 @@ const Grid = () => {
 		
 		useEffect(() => {
 				if (Object.keys(uploadedImg).length > 0) {
-						updateGridIMG();
+						setGameBox(buildGridIMG());
 						initGame(option);
 						setTimeout(() => {
+								let dimensions = [];
+								const heightSection = document.querySelectorAll('.grid-section');
+								heightSection.forEach(( item ) => {
+										dimensions.push(item.getBoundingClientRect().height)
+								})
+								
+								let res = dimensions.length * dimensions[0];
+								
+								ref.current.style.height = res + 'px';
 								ref.current.classList.remove('loading');
 								ref.current.classList.add('loaded');
 						}, 200)
@@ -261,6 +291,7 @@ const Grid = () => {
 		
 		useEffect(() => {
 				if (!removedImg) ref.current.classList.add('loading');
+				ref.current.removeAttribute('style');
 				if (removedImg) {
 						setUploadedImg({});
 						setRemovedImg(false)

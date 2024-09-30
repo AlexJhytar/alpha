@@ -41,6 +41,7 @@ const GridBlock = ( {blocks, size, over, start, end} ) => {
 		return blocks.map(( block, i ) => {
 				let url = Object.keys(block).indexOf('url') !== -1 ? block.url : '';
 				let id = Object.keys(block).indexOf('id') !== -1 ? block.id : block;
+				let styles = 	!isNaN(block) ? {width: `${size}px`, height: `${size}px`} : {width: `${size}px`, height: `100%`};
 
 				return (
 						<div className="grid-block"
@@ -58,7 +59,7 @@ const GridBlock = ( {blocks, size, over, start, end} ) => {
 						     onTouchMove={e => dragOverHandler(e)}
 						     onTouchStart={e => dragStartHandler(e, i)}
 						     onTouchEnd={e => dragEndHandler(e, i)}
-						     style={{width: `${size}px`, height: `${size}px`}}
+						     style={styles}
 						     key={i}
 						>
 								{
