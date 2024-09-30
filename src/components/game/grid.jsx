@@ -261,8 +261,9 @@ const Grid = () => {
 								heightSection.forEach(( item ) => {
 										dimensions.push(item.getBoundingClientRect().height)
 								})
+								console.log(dimensions.length - 1)
 								
-								let res = dimensions.length * dimensions[0];
+								let res = (dimensions.length * dimensions[0]) + ((dimensions.length - 1) * 2);
 								
 								ref.current.style.height = res + 'px';
 								ref.current.classList.remove('loading');
