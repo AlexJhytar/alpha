@@ -7,8 +7,9 @@ import StartGame from "@/components/game/startGame";
 import Timer from "@/components/game/timer";
 import { useStopwatch } from "react-timer-hook";
 import Help from "@/components/game/help";
-import { gridArray, gridWithImg, updateHandler, changeImage } from "@/components/game/alGame";
+import { changeImage, gridArray, gridWithImg, updateHandler } from "@/components/game/alGame";
 import ShowIMG from "@/components/game/showIMG";
+import FullScreen from "@/components/game/fullScreen";
 
 const Grid = () => {
 		const [blocksInfo, setBlocksInfo] = useState([]);
@@ -226,7 +227,8 @@ const Grid = () => {
 						setTimeout(() => {
 								setGameBox(buildGrid());
 						}, 500)
-				} else {
+				}
+				else {
 						setGameBox(buildGrid());
 				}
 				
@@ -261,9 +263,7 @@ const Grid = () => {
 								heightSection.forEach(( item ) => {
 										dimensions.push(item.getBoundingClientRect().height)
 								})
-								console.log(dimensions.length - 1)
-								
-								let res = (dimensions.length * dimensions[0]) + ((dimensions.length - 1) * 2);
+								let res = (dimensions.length*dimensions[0]) + ((dimensions.length - 1)*2);
 								
 								ref.current.style.height = res + 'px';
 								ref.current.classList.remove('loading');
@@ -305,6 +305,7 @@ const Grid = () => {
 				const checkOption = () => {
 						return (<>
 								<Help option={option} expiryTimestamp={expiryTime}/>
+								<FullScreen />
 								<Timer hours={formattedHours} minutes={formattedMinutes}
 								       seconds={formattedSeconds}/>
 						</>)
@@ -321,13 +322,15 @@ const Grid = () => {
 		const gameTypePuzzle = () => {
 				const checkOption = () => {
 						return (<>
-								<ChoiceImage removedImg={checkRemovedImg} statusImg={showIMgModal} showImg={showImage}
+								<ChoiceImage removedImg={checkRemovedImg} statusImg={showIMgModal}
+								             showImg={showImage}
 								             callback={getImage}/>
 								
 								{
 										Object.keys(uploadedImg).length > 0 ? (
 												<>
 														<Help option={option} expiryTimestamp={expiryTime}/>
+														<FullScreen />
 														<Timer hours={formattedHours} minutes={formattedMinutes}
 														       seconds={formattedSeconds}/>
 												</>
