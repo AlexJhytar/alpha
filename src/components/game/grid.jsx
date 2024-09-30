@@ -22,6 +22,7 @@ const Grid = () => {
 		const [removedImg, setRemovedImg] = useState(false);
 		const [gameBox, setGameBox] = useState(<></>);
 		const ref = useRef(null);
+		const [fullPage, setFullPage] = useState(false);
 		
 		const {
 				totalSeconds,
@@ -221,6 +222,11 @@ const Grid = () => {
 				setShowIMgModal(i);
 		}
 		
+		const clickHandleFullScreen = (e) => {
+				setFullPage(prevState => !prevState);
+				!fullPage ? document.querySelector('.game').classList.add('fullScreen') : document.querySelector('.game').classList.remove('fullScreen');
+		};
+		
 		useEffect(() => {
 				ref.current.removeAttribute('style');
 				if (Object.keys(uploadedImg).length > 0) {
@@ -305,7 +311,7 @@ const Grid = () => {
 				const checkOption = () => {
 						return (<>
 								<Help option={option} expiryTimestamp={expiryTime}/>
-								<FullScreen />
+								<FullScreen callback={clickHandleFullScreen} status={fullPage}/>
 								<Timer hours={formattedHours} minutes={formattedMinutes}
 								       seconds={formattedSeconds}/>
 						</>)
@@ -325,12 +331,11 @@ const Grid = () => {
 								<ChoiceImage removedImg={checkRemovedImg} statusImg={showIMgModal}
 								             showImg={showImage}
 								             callback={getImage}/>
-								
 								{
 										Object.keys(uploadedImg).length > 0 ? (
 												<>
+														<FullScreen callback={clickHandleFullScreen} status={fullPage}/>
 														<Help option={option} expiryTimestamp={expiryTime}/>
-														<FullScreen />
 														<Timer hours={formattedHours} minutes={formattedMinutes}
 														       seconds={formattedSeconds}/>
 												</>

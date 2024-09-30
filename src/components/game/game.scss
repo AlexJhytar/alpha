@@ -103,7 +103,7 @@
       gap: 20px;
       justify-content: flex-start;
       box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
-      margin-bottom: 20px;
+      margin-bottom: 40px;
       transition: all .5s;
 
       span {
@@ -122,9 +122,9 @@
         background-color: $bg-green-hover;
         pointer-events: none;
         box-shadow: none;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-        transform: translateY(20px);
+        //border-bottom-left-radius: 0;
+        //border-bottom-right-radius: 0;
+        //transform: translateY(20px);
 
         &::before {
           background-color: $bg-green-hover;
@@ -135,8 +135,8 @@
           transition: all .5s;
           background-color: $bg-green-hover;
           background-image: url("./../../../public/image/icon-check.svg");
-          border-bottom-left-radius: 0;
-          border-bottom-right-radius: 0;
+          //border-bottom-left-radius: 0;
+          //border-bottom-right-radius: 0;
         }
       }
 
@@ -155,17 +155,29 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top: 4px solid var(--bg-green);
+    border-top: 8px solid var(--bg-green);
     box-shadow: inset 0 5px 5px rgba(0, 0, 0, 0.2);
     margin-bottom: 24px;
 
     &::before {
       content: "";
       position: absolute;
-      top: 110px;
+      top: 130px;
       width: 100%;
-      height: 100%;
+      height: 150px;
       background: linear-gradient(rgba(11, 197, 148, .04) 20%, rgba(30, 43, 70, 0.5) 100%);
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: calc((100% - 820px) / 2);
+      border-radius: 0 0 10px 10px;
+      top: 142px;
+      width: 320px;
+      height: 100px;
+      background: var(--bg-dark-blue);
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
     }
 
     &__wrap {
@@ -201,6 +213,8 @@
     position: relative;
     color: white;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-right: 25px;
 
     background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
     background-repeat: no-repeat;
@@ -244,6 +258,16 @@
       height: 24px;
       border-right: 1px dashed var(--bg-green);
     }
+
+    //&::after {
+    //  content: '';
+    //  position: absolute;
+    //  left: -32px;
+    //  top: calc(50% - 2px);
+    //  width: 32px;
+    //  height: 1px;
+    //  border-top: 1px dashed var(--bg-green);
+    //}
 
     ul {
       display: flex;
@@ -529,6 +553,16 @@
       border-right: 1px dashed var(--bg-green);
     }
 
+    //&::after {
+    //  content: '';
+    //  position: absolute;
+    //  left: -32px;
+    //  top: calc(50% - 2px);
+    //  width: 32px;
+    //  height: 1px;
+    //  border-top: 1px dashed var(--bg-green);
+    //}
+
     &.inactive {
       pointer-events: none;
       opacity: 0;
@@ -650,7 +684,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    top: 24px;
+    top: 26px;
     border-radius: 50%;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
 
@@ -659,17 +693,27 @@
       position: absolute;
       left: 0;
       right: 0;
-      top: -24px;
+      top: -26px;
       margin: 0 auto;
       width: 1px;
-      height: 24px;
+      height: 26px;
       border-right: 1px dashed var(--bg-green);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: -40px;
+      top: 50%;
+      width: 40px;
+      height: 1px;
+      border-top: 1px dashed var(--bg-green);
     }
 
     &__button {
       background: transparent;
-      height: 72px;
-      width: 72px;
+      height: 64px;
+      width: 64px;
       border-radius: 50%;
       border: 1px dashed var(--bg-green);
       -webkit-backface-visibility: hidden;
@@ -1046,7 +1090,10 @@
 
         &::before {
           top: 0;
-          height: 100px;
+        }
+
+        &::after {
+          top: 0;
         }
       }
     }
