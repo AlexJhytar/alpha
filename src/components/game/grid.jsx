@@ -260,7 +260,12 @@ const Grid = () => {
 		
 		useEffect(() => {
 				if (Object.keys(uploadedImg).length > 0) {
-						setGameBox(buildGridIMG());
+						if (uploadedImg.aspectRatio > 1) {
+								ref.current.classList.add('portrait');
+								setGameBox(buildGridIMG(1));
+						} else {
+								setGameBox(buildGridIMG());
+						}
 						initGame(option);
 						
 						const getHeight = () => {
@@ -281,21 +286,9 @@ const Grid = () => {
 						}
 						
 						gridHeight().then(res => {
-								let resWidth = ref.current.getBoundingClientRect().width;
-								
-								if (res < resWidth) {
-										setGameBox(buildGridIMG(1));
-										setTimeout(() => {
-												ref.current.style.height = getHeight() + 'px';
-												ref.current.classList.remove('loading');
-												ref.current.classList.add('loaded');
-										}, 100)
-								}
-								else {
-										ref.current.style.height = res + 'px';
-										ref.current.classList.remove('loading');
-										ref.current.classList.add('loaded');
-								}
+								ref.current.style.height = res + 'px';
+								ref.current.classList.remove('loading');
+								ref.current.classList.add('loaded');
 						});
 				}
 		}, [uploadedImg]);

@@ -34,6 +34,7 @@ const ChoiceImage = ( {showImg, removedImg, callback} ) => {
 								}
 						}
 				};
+				return img;
 		}
 		
 		const handleFileSelect = ( event ) => {
@@ -42,8 +43,8 @@ const ChoiceImage = ( {showImg, removedImg, callback} ) => {
 				const reader = new FileReader();
 				let sections = document.querySelectorAll('.grid-section');
 				
-				reader.addEventListener('load', () => {
-						createImage(reader.result, sections.length);
+				reader.addEventListener('load', async () => {
+						let ratio = await createImage(reader.result, sections.length);
 						tagImg.current.src = reader.result;
 						changeImage();
 						
@@ -57,9 +58,10 @@ const ChoiceImage = ( {showImg, removedImg, callback} ) => {
 								removedImg(true);
 						})
 						
-						callback({
-								img: reader.result,
-								array: croppedImage
+						await callback({
+								img: await reader.result,
+								array:  croppedImage,
+								aspectRatio: (ratio.width / ratio.height).toFixed(2)
 						});
 				});
 				
