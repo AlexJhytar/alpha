@@ -55,6 +55,7 @@ const ChoiceImage = ( {showImg, removedImg, callback} ) => {
 						deleteImage.addEventListener('click', async e => {
 								await changeImage();
 								e.target.remove();
+								showImg(false);
 								removedImg(true);
 						})
 						

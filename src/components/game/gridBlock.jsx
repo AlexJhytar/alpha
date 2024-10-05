@@ -21,16 +21,24 @@ const GridBlock = ( {blocks, size, over, start, end} ) => {
 		}
 		
 		const dragOverHandler = ( e ) => {
-				e.preventDefault();
-				
 				if (e.target.className === 'grid-block') {
 						e.target.classList.add('hovered');
+						
+						if (e.target.className === 'grid-block hovered') {
+								const blockIndex = {
+										section: +e.target.closest('.grid-section').dataset.section,
+										block: +e.target.dataset.block
+								}
+								return over(blockIndex);
+						}
+				}
+				
+				if (e.target.className === 'grid-block started') {
 						const blockIndex = {
 								section: +e.target.closest('.grid-section').dataset.section,
 								block: +e.target.dataset.block
 						}
-						
-						over(blockIndex);
+						return over(blockIndex);
 				}
 		}
 		

@@ -104,6 +104,31 @@ const Grid = () => {
 				setOption(i);
 		}
 		
+		const winBlock = () => {
+				ref.current.classList.add('win');
+				document.querySelector('.game-help').style.display = 'none';
+				const win = document.createElement('div');
+				win.classList.add('game-win');
+				ref.current.append(win);
+				
+				if (Object.keys(uploadedImg).length === 0) {
+						win.innerHTML = 'You win!';
+				}
+				
+				if (Object.keys(uploadedImg).length > 0) {
+						ref.current.querySelectorAll('.grid-block').forEach(( block, index ) => {
+								setTimeout(() => {
+										block.classList.add('fall');
+										
+										if (index === ref.current.querySelectorAll('.grid-block').length - 1) {
+												win.style.backgroundImage = `url(${uploadedImg.img})`;
+												win.classList.add('active');
+										}
+								}, index*100);
+						});
+				}
+		}
+		
 		const checkBlock = () => {
 				let arrIndex = [];
 				const blocks = document.querySelectorAll('.grid-block');
@@ -129,11 +154,7 @@ const Grid = () => {
 						
 						if (result) {
 								pause();
-								const win = document.createElement('div');
-								document.querySelector('.game-help').style.display = 'none';
-								win.classList.add('game-win');
-								win.innerHTML = 'You win!';
-								ref.current.append(win);
+								winBlock();
 						}
 				}
 		}
@@ -176,6 +197,7 @@ const Grid = () => {
 				if (winBlock !== null) winBlock.remove();
 				blocks.forEach(( block, i ) => {
 						if (block.classList.contains('correct')) block.classList.remove('correct');
+						if (block.classList.contains('fall')) block.classList.remove('fall');
 						numb > 6 ? block.setAttribute('data-type', 'small') : block.removeAttribute('data-type');
 						block.setAttribute('data-help', 'false');
 						block.setAttribute('data-move', 'false');
@@ -228,6 +250,7 @@ const Grid = () => {
 		
 		useEffect(() => {
 				ref.current.removeAttribute('style');
+				
 				if (Object.keys(uploadedImg).length > 0) {
 						setTimeout(() => {
 								setGameBox(buildGrid());
@@ -254,6 +277,7 @@ const Grid = () => {
 				
 				setTimeout(() => {
 						initGame(option);
+						window.scrollTo({top: 200, behavior: "smooth"})
 				}, 10);
 				
 		}, [option]);
@@ -263,7 +287,8 @@ const Grid = () => {
 						if (uploadedImg.aspectRatio > 1) {
 								ref.current.classList.add('portrait');
 								setGameBox(buildGridIMG(1));
-						} else {
+						}
+						else {
 								setGameBox(buildGridIMG());
 						}
 						initGame(option);
