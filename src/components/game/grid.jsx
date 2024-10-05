@@ -62,25 +62,24 @@ const Grid = () => {
 		const buildGrid = () => {
 				checkWinOnBuild();
 				const getGrid = gridArray({option: option});
-				const gridWidth = ref.current.getBoundingClientRect().width;
+				const gridWidth = window.innerHeight*0.6;
 				const dimensions = gridWidth/option;
 				dimensions === Infinity ? setBlockSize(0) : setBlockSize(dimensions);
 				setGrid(getGrid);
 				ref.current.classList.add('loading');
-				
 				return render(getGrid, dimensions);
 		}
 		
-		const buildGridIMG = () => {
+		const buildGridIMG = ( count ) => {
 				checkWinOnBuild();
 				const getGrid = gridWithImg({selectedValue: option, arr: uploadedImg.array});
-				const gridWidth = ref.current.getBoundingClientRect().width;
+				const gridWidth = count === 1 ? window.innerHeight : window.innerHeight*0.5;
 				const dimensions = gridWidth/option;
 				dimensions === Infinity ? setBlockSize(0) : setBlockSize(dimensions);
 				setGrid(getGrid);
 				document.querySelector('.game-image').classList.remove('loading')
 				document.querySelector('.game-image').classList.add('added');
-				return render(getGrid, blockSize);
+				return render(getGrid, dimensions);
 		}
 		
 		const getImage = ( i ) => {
@@ -222,7 +221,7 @@ const Grid = () => {
 				setShowIMgModal(i);
 		}
 		
-		const clickHandleFullScreen = (e) => {
+		const clickHandleFullScreen = ( e ) => {
 				setFullPage(prevState => !prevState);
 				!fullPage ? document.querySelector('.game').classList.add('fullScreen') : document.querySelector('.game').classList.remove('fullScreen');
 		};
@@ -263,18 +262,41 @@ const Grid = () => {
 				if (Object.keys(uploadedImg).length > 0) {
 						setGameBox(buildGridIMG());
 						initGame(option);
-						setTimeout(() => {
+						
+						const getHeight = () => {
 								let dimensions = [];
 								const heightSection = document.querySelectorAll('.grid-section');
 								heightSection.forEach(( item ) => {
 										dimensions.push(item.getBoundingClientRect().height)
 								})
-								let res = (dimensions.length*dimensions[0]) + ((dimensions.length - 1)*2);
+								return (dimensions.length*dimensions[0]) + ((dimensions.length - 1)*2);
+						}
+						
+						const gridHeight = async () => {
+								return await new Promise(( resolve ) => {
+										setTimeout(() => {
+												resolve(getHeight());
+										}, 200);
+								});
+						}
+						
+						gridHeight().then(res => {
+								let resWidth = ref.current.getBoundingClientRect().width;
 								
-								ref.current.style.height = res + 'px';
-								ref.current.classList.remove('loading');
-								ref.current.classList.add('loaded');
-						}, 200)
+								if (res < resWidth) {
+										setGameBox(buildGridIMG(1));
+										setTimeout(() => {
+												ref.current.style.height = getHeight() + 'px';
+												ref.current.classList.remove('loading');
+												ref.current.classList.add('loaded');
+										}, 100)
+								}
+								else {
+										ref.current.style.height = res + 'px';
+										ref.current.classList.remove('loading');
+										ref.current.classList.add('loaded');
+								}
+						});
 				}
 		}, [uploadedImg]);
 		
